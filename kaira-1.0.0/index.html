@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <title>Kaira - Bootstrap 5 Fashion Store HTML CSS Template</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,6 +25,7 @@
     rel="stylesheet">
 </head>
 
+<!-- <script src="js/custom.js"></script> -->
 <body class="homepage">
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <defs>
@@ -153,6 +155,8 @@
 
   <div class="preloader text-white fs-6 text-uppercase overflow-hidden"></div>
 
+  <div class="row" id="product-list"></div>
+
   <div class="search-popup">
     <div class="search-popup-container">
 
@@ -167,7 +171,7 @@
 
       <h5 class="cat-list-title">Browse Categories</h5>
 
-      <ul class="cat-list">
+      <ul id="cart-list">
         <li class="cat-list-item">
           <a href="#" title="Jackets">Jackets</a>
         </li>
@@ -434,6 +438,7 @@
 
   <section id="billboard" class="bg-light py-5">
     <div class="container">
+      <div class="row" id="product-list"></div>
       <div class="row justify-content-center">
         <h1 class="section-title text-center mt-4" data-aos="fade-up">New Collections</h1>
         <div class="col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
@@ -683,7 +688,9 @@
                   <h5 class="element-title text-uppercase fs-5 mt-3">
                     <a href="index.html">Dark florish onepiece</a>
                   </h5>
-                  <a href="#" class="text-decoration-none" data-after="Add to cart"><span>$95.00</span></a>
+                  <a href="#" class="text-decoration-none btn-add-cart" data-after="Add to cart" data-product-id="1">
+                  <span>$95.00</span></a>
+
                 </div>
               </div>
             </div>
@@ -723,7 +730,13 @@
                   <h5 class="text-uppercase fs-5 mt-3">
                     <a href="index.html">Cotton off-white shirt</a>
                   </h5>
-                  <a href="#" class="text-decoration-none" data-after="Add to cart"><span>$65.00</span></a>
+                  <a href="#" 
+                  class="text-decoration-none btn-add-cart" 
+                  data-after="Add to cart" 
+                  data-product-id="1">
+                  <span>$95.00</span>
+                </a>
+
                 </div>
               </div>
             </div>
@@ -828,7 +841,10 @@
                   <h5 class="text-uppercase fs-5 mt-3">
                     <a href="index.html">Dark florish onepiece</a>
                   </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$95.00</span></a>
+                  <a href="#" class="text-decoration-none btn-add-cart" data-after="Add to cart" data-product-id="1">
+                      <span>$95.00</span>
+                    </a>
+
                 </div>
               </div>
             </div>
