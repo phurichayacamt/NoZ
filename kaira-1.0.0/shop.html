@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Shop Catalog | Kaira</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="TemplatesJungle">
+  <meta name="keywords" content="ecommerce,fashion,store">
+  <meta name="description" content="Bootstrap 5 Fashion Store HTML CSS Template">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/vendor.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
+    rel="stylesheet">
+</head>
+
+<body class="shop-page">
+  <!-- ===== Navbar ===== -->
+  <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
+    <div class="container-fluid">
+      <div class="row justify-content-between align-items-center w-100">
+        <div class="col-auto">
+          <a class="navbar-brand text-white" href="index.html">
+            <svg width="112" height="45" viewBox="0 0 112 45" xmlns="http://www.w3.org/2000/svg" fill="#111">
+              <!-- ... logo ... -->
+            </svg>
+          </a>
+        </div>
+
+        <div class="col-auto">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-3 col-lg-auto">
+          <ul class="list-unstyled d-flex m-0">
+            <li class="d-none d-lg-block">
+              <a href="index.html" class="text-uppercase mx-3">Wishlist <span class="wishlist-count">(0)</span></a>
+            </li>
+            <li class="d-none d-lg-block">
+              <a href="index.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+                aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span></a>
+            </li>
+            <li class="d-lg-none">
+              <a href="#" class="mx-2">
+                <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#heart"></use></svg>
+              </a>
+            </li>
+            <li class="d-lg-none">
+              <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+                aria-controls="offcanvasCart">
+                <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#cart"></use></svg>
+              </a>
+            </li>
+            <li class="search-box" class="mx-2">
+              <a href="#search" class="search-button">
+                <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#search"></use></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasCartLabel">Your cart</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-unstyled" id="cart-item-list">
+        <!-- Render list ที่นี่ -->
+      </ul>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <span class="fw-bold fs-5">Total</span>
+        <span class="fw-bold fs-5" id="cart-total">0</span>
+      </div>
+      <button class="btn btn-dark w-100 mt-4" id="checkout-btn">Continue to Checkout</button>
+    </div>
+  </div>
+  
+  
+
+  <!-- ===== CATALOG SECTION ===== -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col text-center">
+          <h2 class="section-title text-uppercase mb-0">Shop Catalog</h2>
+          <p class="text-secondary">เลือกสินค้าทั้งหมดของเรา ค้นหาหรือเลือกหมวดหมู่ได้เลย</p>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6 mb-2 mb-md-0">
+          <input id="search-input" type="text" class="form-control" placeholder="ค้นหาสินค้า (ชื่อหรือคำอธิบาย)">
+        </div>
+        <div class="col-md-3 mb-2 mb-md-0">
+          <select id="category-select" class="form-select">
+            <option value="">ทุกหมวดหมู่</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button id="search-btn" class="btn btn-dark w-100">ค้นหา</button>
+        </div>
+      </div>
+      <div class="row" id="product-list"></div>
+    </div>
+  </section>
+
+  <!-- ===== Newsletter, Instagram, Footer (copy ตาม index.html) ===== -->
+  <section class="newsletter bg-light" style="background: url(images/pattern-bg.png) no-repeat;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 py-5 my-5">
+          <div class="subscribe-header text-center pb-3">
+            <h3 class="section-title text-uppercase">Sign Up for our newsletter</h3>
+          </div>
+          <form id="form" class="d-flex flex-wrap gap-2">
+            <input type="text" name="email" placeholder="Your Email Addresss" class="form-control form-control-lg">
+            <button class="btn btn-dark btn-lg text-uppercase w-100">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="instagram position-relative">
+    <div class="d-flex justify-content-center w-100 position-absolute bottom-0 z-1">
+      <a href="https://www.instagram.com/templatesjungle/" class="btn btn-dark px-5">Follow us on Instagram</a>
+    </div>
+    <div class="row g-0">
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item1.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item2.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item3.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item4.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item5.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item6.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+    </div>
+  </section>
+  <footer id="footer" class="mt-5">
+    <div class="container">
+      <div class="row d-flex flex-wrap justify-content-between py-5">
+        <!-- ...footer menu ... -->
+      </div>
+    </div>
+    <div class="border-top py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 d-flex flex-wrap">
+            <div class="shipping">
+              <span>We ship with:</span>
+              <img src="images/arct-icon.png" alt="icon">
+              <img src="images/dhl-logo.png" alt="icon">
+            </div>
+            <div class="payment-option">
+              <span>Payment Option:</span>
+              <img src="images/visa-card.png" alt="card">
+              <img src="images/paypal-card.png" alt="card">
+              <img src="images/master-card.png" alt="card">
+            </div>
+          </div>
+          <div class="col-md-6 text-end">
+            <p>© Copyright 2022 Kaira. All rights reserved. Design by <a href="https://templatesjungle.com"
+                target="_blank">TemplatesJungle</a> Distribution By <a href="https://themewagon.com"
+                target="blank">ThemeWagon</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/SmoothScroll.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="js/script.min.js"></script>
+
+  <!-- ===== Catalog JS ===== -->
+  <script>
+    function renderProducts(products) {
+      let html = '';
+      if (products.length === 0) {
+        html = '<div class="col-12 text-center"><p class="text-muted">ไม่พบสินค้า</p></div>';
+      }
+      products.forEach(p => {
+        html += `
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="product-item image-zoom-effect link-effect h-100 d-flex flex-column">
+              <div class="image-holder position-relative">
+                <img src="${p.image || 'images/no-image.png'}" alt="${p.name}" class="product-image img-fluid">
+                <a href="#" class="btn-icon btn-wishlist position-absolute top-0 end-0 m-2">
+                  <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#heart"></use></svg>
+                </a>
+              </div>
+              <div class="product-content p-3 flex-grow-1 d-flex flex-column">
+                <h5 class="element-title text-uppercase fs-6 mt-2 mb-1">${p.name}</h5>
+                <p class="small text-muted mb-2">${p.description || ''}</p>
+                <span class="badge bg-light text-dark mb-2">${p.category || ''}</span>
+                <div class="mt-auto d-flex justify-content-between align-items-center">
+                  <span class="fw-bold text-primary fs-5">${p.price} บาท</span>
+                  <a href="#" class="btn btn-dark btn-sm btn-add-cart" data-product-id="${p.id}">Add to Cart</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('product-list').innerHTML = html;
+    }
+
+    // โหลดสินค้าทั้งหมด/by category/หรือ by search
+    function loadProducts(category = '', keyword = '') {
+      let url = 'http://localhost:3000/api/products';
+      if (category) {
+        url += '/category/' + encodeURIComponent(category);
+      } else if (keyword) {
+        url += '/search/' + encodeURIComponent(keyword);
+      }
+      fetch(url)
+        .then(res => res.json())
+        .then(products => renderProducts(products));
+    }
+
+    // โหลดหมวดหมู่ (เรียง A-Z)
+    function loadCategories() {
+      fetch('http://localhost:3000/api/products')
+        .then(res => res.json())
+        .then(products => {
+          const catSet = new Set(products.map(p => p.category).filter(Boolean));
+          const sortedCats = Array.from(catSet).sort();
+          let html = '<option value="">ทุกหมวดหมู่</option>';
+          sortedCats.forEach(cat => {
+            html += `<option value="${cat}">${cat}</option>`;
+          });
+          document.getElementById('category-select').innerHTML = html;
+        });
+    }
+
+    // ฟังก์ชันอัปเดตเลขตะกร้า
+    function updateCartCount() {
+      fetch('http://localhost:3000/api/cart/guest')
+        .then(res => res.json())
+        .then(items => {
+          let total = 0;
+          items.forEach(item => total += item.quantity);
+          document.querySelectorAll('.cart-count').forEach(el => el.textContent = `(${total})`);
+        });
+    }
+
+    // ฟังก์ชันแจ้งเตือนแบบ toast
+    function showToast(message) {
+      let toast = document.createElement('div');
+      toast.className = 'toast align-items-center text-bg-dark border-0 position-fixed bottom-0 end-0 m-3 show';
+      toast.role = 'alert';
+      toast.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">${message}</div>
+          <button type="button" class="btn-close btn-close-white ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+      }, 2000);
+    }
+
+    // ฟังก์ชัน Add to Cart
+    function addToCart(product_id) {
+      fetch('http://localhost:3000/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          product_id: product_id,
+          quantity: 1,
+          session_id: 'guest'
+        })
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('เพิ่มสินค้าลงตะกร้าแล้ว!');
+            updateCartCount();
+          } else {
+            showToast('เกิดข้อผิดพลาด: ' + result.error);
+          }
+        });
+    }
+
+    // โหลดเมื่อหน้าเว็บเสร็จ
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProducts();
+      loadCategories();
+      updateCartCount();
+
+      // Event: กรองตามหมวด
+      document.getElementById('category-select').onchange = function () {
+        loadProducts(this.value, '');
+      };
+
+      // Event: ค้นหาด้วยปุ่ม/Enter
+      document.getElementById('search-btn').onclick = () => {
+        const cat = document.getElementById('category-select').value;
+        const key = document.getElementById('search-input').value.trim();
+        if (key) loadProducts('', key);
+        else loadProducts(cat, '');
+      };
+    });
+
+    // Event: ดักคลิก Add to Cart
+    $('#product-list').on('click', '.btn-add-cart', function (e) {
+      e.preventDefault();
+      const id = $(this).data('product-id');
+      addToCart(id);
+    });
+
+    function renderCartSidebar() {
+  fetch('http://localhost:3000/api/cart/guest')
+    .then(res => res.json())
+    .then(items => {
+      let html = '';
+      let total = 0;
+      items.forEach(item => {
+        total += item.price * item.quantity;
+        html += `
+          <li class="mb-2 border-bottom pb-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-bold">${item.name}</div>
+                <div class="text-muted small">${item.description || ''}</div>
+                <div class="small">จำนวน: ${item.quantity}</div>
+              </div>
+              <div class="text-end">
+                <div class="fw-bold">${item.price * item.quantity} บาท</div>
+              </div>
+            </div>
+          </li>
+        `;
+      });
+      document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
+      document.getElementById('cart-total').textContent = total + ' บาท';
+    });
+}
+
+document.getElementById('offcanvasCart').addEventListener('show.bs.offcanvas', function() {
+  renderCartSidebar();
+});
+
+
+  </script>
+</body>
+</html>

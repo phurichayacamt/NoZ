@@ -70,6 +70,8 @@ app.get('/api/cart/:session_id', (req, res) => {
   );
 });
 
+
+
 // (อื่น ๆ เช่น checkout, ลบสินค้าในตะกร้า เพิ่มเติมทีหลังได้)
 
 // Start server
