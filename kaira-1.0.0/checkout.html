@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Checkout | Kaira</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="TemplatesJungle">
+  <meta name="keywords" content="ecommerce,fashion,store">
+  <meta name="description" content="Bootstrap 5 Fashion Store HTML CSS Template">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/vendor.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body class="checkout-page bg-light">
+
+  <!-- ===== Navbar ===== -->
+  <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
+    <div class="container-fluid">
+      <div class="row justify-content-between align-items-center w-100">
+        <div class="col-auto">
+          <a class="navbar-brand text-white" href="index.html">
+            <svg width="112" height="45" viewBox="0 0 112 45" xmlns="http://www.w3.org/2000/svg" fill="#111">
+              <!-- ... logo ... -->
+            </svg>
+          </a>
+        </div>
+        <div class="col-auto">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-3 col-lg-auto">
+          <ul class="list-unstyled d-flex m-0">
+            <li class="d-none d-lg-block">
+              <a href="index.html" class="text-uppercase mx-3">Wishlist <span class="wishlist-count">(0)</span></a>
+            </li>
+            <li class="d-none d-lg-block">
+              <a href="shop.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+                aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span></a>
+            </li>
+            <li class="d-lg-none">
+              <a href="#" class="mx-2"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+            </li>
+            <li class="d-lg-none">
+              <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+                aria-controls="offcanvasCart">
+                <svg width="24" height="24"><use xlink:href="#cart"></use></svg>
+              </a>
+            </li>
+            <li class="search-box" class="mx-2">
+              <a href="#search" class="search-button"><svg width="24" height="24"><use xlink:href="#search"></use></svg></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Checkout Content ===== -->
+  <section class="container my-5">
+    <h2 class="mb-4 text-center">Checkout</h2>
+    <div class="card shadow p-4 mb-5">
+      <h5 class="mb-4">รายการสินค้าในตะกร้า</h5>
+      <ul class="list-group mb-4" id="checkout-cart-list"></ul>
+      <div class="d-flex justify-content-between align-items-center fs-5 mb-4">
+        <span>ราคารวมทั้งหมด</span>
+        <span id="checkout-cart-total">0 บาท</span>
+      </div>
+      <button class="btn btn-dark w-100" id="checkout-btn">ยืนยันการสั่งซื้อ</button>
+      <div class="mt-3 text-success text-center d-none" id="checkout-success">
+        ✅ ชำระเงินเรียบร้อยแล้ว ขอบคุณสำหรับการสั่งซื้อ!
+      </div>
+    </div>
+    <div class="text-center">
+      <a href="shop.html" class="btn btn-link text-decoration-none">← กลับไปเลือกซื้อสินค้า</a>
+    </div>
+  </section>
+
+  <!-- ===== Newsletter ===== -->
+  <section class="newsletter bg-light" style="background: url(images/pattern-bg.png) no-repeat;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 py-5 my-5">
+          <div class="subscribe-header text-center pb-3">
+            <h3 class="section-title text-uppercase">Sign Up for our newsletter</h3>
+          </div>
+          <form id="form" class="d-flex flex-wrap gap-2">
+            <input type="text" name="email" placeholder="Your Email Addresss" class="form-control form-control-lg">
+            <button class="btn btn-dark btn-lg text-uppercase w-100">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Instagram Section ===== -->
+  <section class="instagram position-relative">
+    <div class="d-flex justify-content-center w-100 position-absolute bottom-0 z-1">
+      <a href="https://www.instagram.com/templatesjungle/" class="btn btn-dark px-5">Follow us on Instagram</a>
+    </div>
+    <div class="row g-0">
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item1.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item2.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item3.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item4.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item5.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item6.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer id="footer" class="mt-5">
+    <div class="container">
+      <div class="row d-flex flex-wrap justify-content-between py-5">
+        <!-- ...footer menu (เหมือน index.html) ... -->
+        <div class="col-md-3 col-sm-6">
+          <div class="footer-menu footer-menu-001">
+            <div class="footer-intro mb-4">
+              <a href="index.html">
+                <img src="images/main-logo.png" alt="logo">
+              </a>
+            </div>
+            <p>Gravida massa volutpat aenean odio. Amet, turpis erat nullam fringilla elementum diam in. Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit hendrerit.</p>
+            <div class="social-links">
+              <ul class="list-unstyled d-flex flex-wrap gap-3">
+                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#facebook"></use></svg></a></li>
+                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#twitter"></use></svg></a></li>
+                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#youtube"></use></svg></a></li>
+                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#pinterest"></use></svg></a></li>
+                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#instagram"></use></svg></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- ... (footer menu 002, 003, 004 ตาม index.html เดิม) ... -->
+        <div class="col-md-3 col-sm-6">
+          <div class="footer-menu footer-menu-002">
+            <h5 class="widget-title text-uppercase mb-4">Quick Links</h5>
+            <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
+              <li class="menu-item"><a href="index.html" class="item-anchor">Home</a></li>
+              <li class="menu-item"><a href="index.html" class="item-anchor">About</a></li>
+              <li class="menu-item"><a href="blog.html" class="item-anchor">Services</a></li>
+              <li class="menu-item"><a href="styles.html" class="item-anchor">Single item</a></li>
+              <li class="menu-item"><a href="#" class="item-anchor">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="footer-menu footer-menu-003">
+            <h5 class="widget-title text-uppercase mb-4">Help & Info</h5>
+            <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
+              <li class="menu-item"><a href="#" class="item-anchor">Track Your Order</a></li>
+              <li class="menu-item"><a href="#" class="item-anchor">Returns + Exchanges</a></li>
+              <li class="menu-item"><a href="#" class="item-anchor">Shipping + Delivery</a></li>
+              <li class="menu-item"><a href="#" class="item-anchor">Contact Us</a></li>
+              <li class="menu-item"><a href="#" class="item-anchor">Find us easy</a></li>
+              <li class="menu-item"><a href="index.html" class="item-anchor">Faqs</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="footer-menu footer-menu-004 border-animation-left">
+            <h5 class="widget-title text-uppercase mb-4">Contact Us</h5>
+            <p>Do you have any questions or suggestions? <a href="mailto:contact@yourcompany.com" class="item-anchor">contact@yourcompany.com</a></p>
+            <p>Do you need support? Give us a call. <a href="tel:+43 720 11 52 78" class="item-anchor">+43 720 11 52 78</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-top py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 d-flex flex-wrap">
+            <div class="shipping">
+              <span>We ship with:</span>
+              <img src="images/arct-icon.png" alt="icon">
+              <img src="images/dhl-logo.png" alt="icon">
+            </div>
+            <div class="payment-option">
+              <span>Payment Option:</span>
+              <img src="images/visa-card.png" alt="card">
+              <img src="images/paypal-card.png" alt="card">
+              <img src="images/master-card.png" alt="card">
+            </div>
+          </div>
+          <div class="col-md-6 text-end">
+            <p>© Copyright 2022 Kaira. All rights reserved. Design by <a href="https://templatesjungle.com"
+                target="_blank">TemplatesJungle</a> Distribution By <a href="https://themewagon.com"
+                target="blank">ThemeWagon</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/SmoothScroll.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="js/script.min.js"></script>
+  <script>
+    // โหลดสินค้าในตะกร้า
+    function loadCheckoutCart() {
+      fetch('http://localhost:3000/api/cart/guest')
+        .then(res => res.json())
+        .then(items => {
+          let html = '';
+          let total = 0;
+          items.forEach(item => {
+            html += `
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-bold">${item.name}</div>
+                  <div class="small text-muted">${item.description || ''}</div>
+                  <div class="small">จำนวน: ${item.quantity}</div>
+                </div>
+                <div class="fw-bold">${item.price * item.quantity} บาท</div>
+              </li>
+            `;
+            total += item.price * item.quantity;
+          });
+          document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
+          document.getElementById('checkout-cart-total').textContent = total + ' บาท';
+        });
+    }
+
+    // ยืนยันชำระเงิน (ลบตะกร้า)
+    function checkout() {
+      fetch('http://localhost:3000/api/cart/guest', {
+        method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(result => {
+        if(result.success) {
+          document.getElementById('checkout-success').classList.remove('d-none');
+          loadCheckoutCart();
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCheckoutCart();
+      document.getElementById('checkout-btn').onclick = checkout;
+    });
+
+    function loadCheckoutCart() {
+    fetch('http://localhost:3000/api/cart/guest')
+      .then(res => res.json())
+      .then(items => {
+        let html = '';
+        let total = 0;
+        items.forEach(item => {
+          html += `
+            <li class="list-group-item d-flex justify-content-between align-items-center" data-cart-id="${item.id}">
+              <div>
+                <div class="fw-bold">${item.name}</div>
+                <div class="small text-muted">${item.description || ''}</div>
+                <div class="input-group input-group-sm mt-2" style="width:120px;">
+                  <button class="btn btn-outline-secondary btn-qty-decrease" type="button">-</button>
+                  <input type="number" class="form-control text-center cart-qty-input" min="1" value="${item.quantity}" style="max-width:50px;">
+                  <button class="btn btn-outline-secondary btn-qty-increase" type="button">+</button>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="fw-bold">${item.price * item.quantity} บาท</div>
+                <button class="btn btn-sm btn-outline-danger mt-2 btn-cart-delete">ลบ</button>
+              </div>
+            </li>
+          `;
+          total += item.price * item.quantity;
+        });
+        document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
+        document.getElementById('checkout-cart-total').textContent = total + ' บาท';
+      });
+  }
+
+  // ยืนยันชำระเงิน (ลบตะกร้า)
+  function checkout() {
+    fetch('http://localhost:3000/api/cart/guest', {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(result => {
+      if(result.success) {
+        document.getElementById('checkout-success').classList.remove('d-none');
+        loadCheckoutCart();
+      }
+    });
+  }
+
+  // Event delegation สำหรับลบ/เพิ่มลดจำนวน
+  document.addEventListener('DOMContentLoaded', () => {
+    loadCheckoutCart();
+    document.getElementById('checkout-btn').onclick = checkout;
+
+    document.getElementById('checkout-cart-list').addEventListener('click', function(e) {
+      const li = e.target.closest('li[data-cart-id]');
+      if (!li) return;
+      const cartId = li.getAttribute('data-cart-id');
+
+      // ลบสินค้า
+      if (e.target.classList.contains('btn-cart-delete')) {
+        fetch(`http://localhost:3000/api/cart/item/${cartId}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) loadCheckoutCart();
+          });
+      }
+
+      // เพิ่ม/ลดจำนวน
+      if (e.target.classList.contains('btn-qty-increase') || e.target.classList.contains('btn-qty-decrease')) {
+        const input = li.querySelector('.cart-qty-input');
+        let qty = parseInt(input.value, 10);
+        if (e.target.classList.contains('btn-qty-increase')) qty++;
+        if (e.target.classList.contains('btn-qty-decrease') && qty > 1) qty--;
+        input.value = qty;
+        updateCartQty(cartId, qty);
+      }
+    });
+
+    // ใส่ event สำหรับเปลี่ยนจำนวน (input type number)
+    document.getElementById('checkout-cart-list').addEventListener('change', function(e) {
+      if (e.target.classList.contains('cart-qty-input')) {
+        const li = e.target.closest('li[data-cart-id]');
+        const cartId = li.getAttribute('data-cart-id');
+        let qty = parseInt(e.target.value, 10);
+        if (qty < 1 || isNaN(qty)) qty = 1;
+        e.target.value = qty;
+        updateCartQty(cartId, qty);
+      }
+    });
+
+    function updateCartQty(cartId, qty) {
+      fetch(`http://localhost:3000/api/cart/item/${cartId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: qty })
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) loadCheckoutCart();
+        });
+    }
+  });
+  </script>
+</body>
+</html>

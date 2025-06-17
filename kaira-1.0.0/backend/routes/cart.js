@@ -32,5 +32,21 @@ router.get('/:session_id', (req, res) => {
     }
   );
 });
+// ลบสินค้า 1 รายการในตะกร้า (ตาม cart.id)
+router.delete('/item/:cart_id', (req, res) => {
+  db.run('DELETE FROM cart WHERE id = ?', [req.params.cart_id], function(err) {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true });
+  });
+});
+// อัปเดตจำนวนสินค้าในตะกร้า (ตาม cart.id)
+router.put('/item/:cart_id', (req, res) => {
+  const { quantity } = req.body;
+  db.run('UPDATE cart SET quantity = ? WHERE id = ?', [quantity, req.params.cart_id], function(err) {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true });
+  });
+});
+
 
 module.exports = router;

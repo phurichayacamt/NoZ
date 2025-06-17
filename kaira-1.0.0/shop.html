@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 
 <head>
   <title>Shop Catalog | Kaira</title>
@@ -23,6 +24,7 @@
 </head>
 
 <body class="shop-page">
+    
   <!-- ===== Navbar ===== -->
   <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
     <div class="container-fluid">
@@ -100,7 +102,8 @@
         <span class="fw-bold fs-5">Total</span>
         <span class="fw-bold fs-5" id="cart-total">0</span>
       </div>
-      <button class="btn btn-dark w-100 mt-4" id="checkout-btn">Continue to Checkout</button>
+
+     <a href="checkout.html" class="btn btn-dark w-100 mt-4" id="checkout-btn">Continue to Checkout</a>
     </div>
   </div>
   
@@ -383,6 +386,93 @@
 document.getElementById('offcanvasCart').addEventListener('show.bs.offcanvas', function() {
   renderCartSidebar();
 });
+
+function renderCartSidebar() {
+  fetch('http://localhost:3000/api/cart/guest')
+    .then(res => res.json())
+    .then(items => {
+      let html = '';
+      let total = 0;
+      items.forEach(item => {
+        html += `
+          <li class="mb-2 border-bottom pb-2 d-flex justify-content-between align-items-center" data-cart-id="${item.id}">
+            <div>
+              <div class="fw-bold">${item.name}</div>
+              <div class="small text-muted">${item.description || ''}</div>
+              <div class="input-group input-group-sm mt-2" style="width:110px;">
+                <button class="btn btn-outline-secondary btn-qty-decrease" type="button">-</button>
+                <input type="number" class="form-control text-center cart-qty-input" min="1" value="${item.quantity}" style="max-width:45px;">
+                <button class="btn btn-outline-secondary btn-qty-increase" type="button">+</button>
+              </div>
+            </div>
+            <div class="text-end">
+              <div class="fw-bold">${item.price * item.quantity} บาท</div>
+              <button class="btn btn-sm btn-outline-danger mt-2 btn-cart-delete">ลบ</button>
+            </div>
+          </li>
+        `;
+        total += item.price * item.quantity;
+      });
+      document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
+      document.getElementById('cart-total').textContent = total + ' บาท';
+    });
+}
+
+// เรียก renderCartSidebar ทุกครั้งที่เปิด offcanvas
+document.getElementById('offcanvasCart').addEventListener('show.bs.offcanvas', function() {
+  renderCartSidebar();
+});
+
+// Event delegation สำหรับลบ/แก้จำนวน
+document.getElementById('cart-item-list').addEventListener('click', function(e) {
+  const li = e.target.closest('li[data-cart-id]');
+  if (!li) return;
+  const cartId = li.getAttribute('data-cart-id');
+
+  // ลบสินค้า
+  if (e.target.classList.contains('btn-cart-delete')) {
+    fetch(`http://localhost:3000/api/cart/item/${cartId}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(result => {
+        if (result.success) renderCartSidebar();
+      });
+  }
+
+  // เพิ่ม/ลดจำนวน
+  if (e.target.classList.contains('btn-qty-increase') || e.target.classList.contains('btn-qty-decrease')) {
+    const input = li.querySelector('.cart-qty-input');
+    let qty = parseInt(input.value, 10);
+    if (e.target.classList.contains('btn-qty-increase')) qty++;
+    if (e.target.classList.contains('btn-qty-decrease') && qty > 1) qty--;
+    input.value = qty;
+    updateCartQty(cartId, qty);
+  }
+});
+
+// สำหรับ input type number (เมื่อเปลี่ยนด้วยการพิมพ์)
+document.getElementById('cart-item-list').addEventListener('change', function(e) {
+  if (e.target.classList.contains('cart-qty-input')) {
+    const li = e.target.closest('li[data-cart-id]');
+    const cartId = li.getAttribute('data-cart-id');
+    let qty = parseInt(e.target.value, 10);
+    if (qty < 1 || isNaN(qty)) qty = 1;
+    e.target.value = qty;
+    updateCartQty(cartId, qty);
+  }
+});
+
+function updateCartQty(cartId, qty) {
+  fetch(`http://localhost:3000/api/cart/item/${cartId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ quantity: qty })
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) renderCartSidebar();
+    });
+}
+
 
 
   </script>
