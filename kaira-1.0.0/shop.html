@@ -218,6 +218,7 @@
 
   <!-- ===== Catalog JS ===== -->
   <script>
+
     function renderProducts(products) {
       let html = '';
       if (products.length === 0) {
@@ -228,8 +229,8 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
             <div class="product-item image-zoom-effect link-effect h-100 d-flex flex-column">
               <div class="image-holder position-relative">
-                <img src="${p.image || 'images/no-image.png'}" alt="${p.name}" class="product-image img-fluid">
-                <a href="#" class="btn-icon btn-wishlist position-absolute top-0 end-0 m-2">
+                <img src="/${p.image || 'images/no-image.png'}" alt="${p.name}" class="product-image img-fluid">
+                  <a href="#" class="btn-icon btn-wishlist position-absolute top-0 end-0 m-2">
                   <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#heart"></use></svg>
                 </a>
               </div>
@@ -307,27 +308,26 @@
     }
 
     // ฟังก์ชัน Add to Cart
-    function addToCart(product_id) {
-      fetch('http://localhost:3000/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          product_id: product_id,
-          quantity: 1,
-          session_id: 'guest'
-        })
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('เพิ่มสินค้าลงตะกร้าแล้ว!');
-            updateCartCount();
-          } else {
-            showToast('เกิดข้อผิดพลาด: ' + result.error);
-          }
-        });
-    }
-
+function addToCart(product_id) {
+  fetch('http://localhost:3000/api/cart', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      product_id: product_id,
+      quantity: 1,
+      session_id: 'guest'
+    })
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        showToast('เพิ่มสินค้าลงตะกร้าแล้ว!');
+        updateCartCount();
+      } else {
+        showToast('เกิดข้อผิดพลาด: ' + (result.error || 'ไม่สามารถเพิ่มสินค้า'));
+      }
+    });
+}
     // โหลดเมื่อหน้าเว็บเสร็จ
     document.addEventListener('DOMContentLoaded', () => {
       loadProducts();
@@ -394,24 +394,28 @@ function renderCartSidebar() {
       let html = '';
       let total = 0;
       items.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
         html += `
           <li class="mb-2 border-bottom pb-2 d-flex justify-content-between align-items-center" data-cart-id="${item.id}">
-            <div>
-              <div class="fw-bold">${item.name}</div>
-              <div class="small text-muted">${item.description || ''}</div>
-              <div class="input-group input-group-sm mt-2" style="width:110px;">
-                <button class="btn btn-outline-secondary btn-qty-decrease" type="button">-</button>
-                <input type="number" class="form-control text-center cart-qty-input" min="1" value="${item.quantity}" style="max-width:45px;">
-                <button class="btn btn-outline-secondary btn-qty-increase" type="button">+</button>
+            <div class="d-flex align-items-center">
+              <img src="/${item.image}" alt="${item.name}" width="50" class="me-2 rounded">
+              <div>
+                <div class="fw-bold">${item.name}</div>
+                <div class="text-muted small">เหลือในคลัง: ${item.stock}</div>
+                <div class="input-group input-group-sm mt-2" style="width:110px;">
+                  <button class="btn btn-outline-secondary btn-qty-decrease" type="button">-</button>
+                  <input type="number" class="form-control text-center cart-qty-input" min="1" value="${item.quantity}" style="max-width:45px;">
+                  <button class="btn btn-outline-secondary btn-qty-increase" type="button">+</button>
+                </div>
               </div>
             </div>
             <div class="text-end">
-              <div class="fw-bold">${item.price * item.quantity} บาท</div>
-              <button class="btn btn-sm btn-outline-danger mt-2 btn-cart-delete">ลบ</button>
+              <div class="fw-bold">${subtotal} บาท</div>
+              <button class="btn btn-sm btn-outline-danger mt-2 btn-cart-delete">🗑</button>
             </div>
           </li>
         `;
-        total += item.price * item.quantity;
       });
       document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
       document.getElementById('cart-total').textContent = total + ' บาท';
@@ -431,7 +435,7 @@ document.getElementById('cart-item-list').addEventListener('click', function(e) 
 
   // ลบสินค้า
   if (e.target.classList.contains('btn-cart-delete')) {
-    fetch(`http://localhost:3000/api/cart/item/${cartId}`, { method: 'DELETE' })
+    fetch(`http://localhost:3000/api/cart/${cartId}`, { method: 'DELETE' })
       .then(res => res.json())
       .then(result => {
         if (result.success) renderCartSidebar();
@@ -462,19 +466,63 @@ document.getElementById('cart-item-list').addEventListener('change', function(e)
 });
 
 function updateCartQty(cartId, qty) {
-  fetch(`http://localhost:3000/api/cart/item/${cartId}`, {
+  fetch(`http://localhost:3000/api/cart/${cartId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ quantity: qty })
   })
     .then(res => res.json())
     .then(result => {
-      if (result.success) renderCartSidebar();
+      if (result.success) {
+        renderCartSidebar();
+        updateCartCount();
+      } else {
+        showToast(result.error || 'ไม่สามารถอัปเดตจำนวน');
+      }
+    });
+}
+
+function addToCart(product_id) {
+  fetch('http://localhost:3000/api/cart', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      product_id: product_id,
+      quantity: 1,
+      session_id: 'guest'
+    })
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        showToast('เพิ่มสินค้าลงตะกร้าแล้ว!');
+        updateCartCount();
+      } else {
+        showToast('เกิดข้อผิดพลาด: ' + (result.error || 'ไม่สามารถเพิ่มสินค้า'));
+      }
+    });
+}
+
+function updateCartQty(cartId, qty) {
+  fetch(`http://localhost:3000/api/cart/${cartId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ quantity: qty })
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        renderCartSidebar();
+        updateCartCount();
+      } else {
+        showToast(result.error || 'ไม่สามารถอัปเดตจำนวน');
+      }
     });
 }
 
 
 
   </script>
+  <script src="/js/cart.js"></script>
 </body>
 </html>

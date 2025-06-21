@@ -1,52 +1,50 @@
-// backend/routes/cart.js
-const express = require('express');
-const router = express.Router();
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+async function fetchCart() {
+  const res = await fetch('/api/cart/guest');
+  const cart = await res.json();
+  const container = document.getElementById('offcanvasCartItems');
+  container.innerHTML = '';
+  let total = 0;
 
-const db = new sqlite3.Database(path.join(__dirname, '../../data/database.sqlite'));
+  cart.forEach(item => {
+    const subtotal = item.price * item.quantity;
+    total += subtotal;
 
-// เพิ่มสินค้าลงตะกร้า
-router.post('/', (req, res) => {
-  const { product_id, quantity, session_id } = req.body;
-  db.run("INSERT INTO cart (product_id, quantity, session_id) VALUES (?, ?, ?)",
-    [product_id, quantity, session_id || 'guest'],
-    function(err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ success: true, cart_id: this.lastID });
+    container.innerHTML += `
+      <div class="cart-item d-flex justify-content-between align-items-center mb-2">
+        <div class="d-flex align-items-center">
+          <img src="/${item.image}" alt="${item.name}" width="50" class="me-2">
+          <div>
+            <strong>${item.name}</strong><br>
+            ฿${item.price} x ${item.quantity} = ฿${subtotal}
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <button onclick="updateQty(${item.id}, ${item.quantity - 1})" class="btn btn-sm btn-outline-secondary">−</button>
+          <span class="mx-2">${item.quantity}</span>
+          <button onclick="updateQty(${item.id}, ${item.quantity + 1})" class="btn btn-sm btn-outline-secondary">+</button>
+          <button onclick="deleteItem(${item.id})" class="btn btn-sm btn-outline-danger ms-2">🗑</button>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById('cartTotal').textContent = '฿' + total;
+}
+
+async function updateQty(id, qty) {
+  if (qty <= 0) {
+    await deleteItem(id);
+  } else {
+    await fetch('/api/cart/' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ quantity: qty })
     });
-});
+  }
+  fetchCart();
+}
 
-// แสดงตะกร้าสินค้าของ session_id
-router.get('/:session_id', (req, res) => {
-  const session_id = req.params.session_id;
-  db.all(
-    `SELECT cart.id, products.*, cart.quantity
-     FROM cart
-     JOIN products ON cart.product_id = products.id
-     WHERE cart.session_id = ?`,
-    [session_id],
-    (err, rows) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json(rows);
-    }
-  );
-});
-// ลบสินค้า 1 รายการในตะกร้า (ตาม cart.id)
-router.delete('/item/:cart_id', (req, res) => {
-  db.run('DELETE FROM cart WHERE id = ?', [req.params.cart_id], function(err) {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ success: true });
-  });
-});
-// อัปเดตจำนวนสินค้าในตะกร้า (ตาม cart.id)
-router.put('/item/:cart_id', (req, res) => {
-  const { quantity } = req.body;
-  db.run('UPDATE cart SET quantity = ? WHERE id = ?', [quantity, req.params.cart_id], function(err) {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ success: true });
-  });
-});
-
-
-module.exports = router;
+async function deleteItem(id) {
+  await fetch('/api/cart/' + id, { method: 'DELETE' });
+  fetchCart();
+}
