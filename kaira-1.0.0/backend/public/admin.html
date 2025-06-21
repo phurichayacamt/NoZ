@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -107,4 +107,142 @@
     loadProducts();
   </script>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaira Admin | จัดการสินค้า</title>
+  <!-- Bootstrap + Icon Fonts + Custom CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/vendor.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom px-4 py-3">
+    <a class="navbar-brand fw-bold" href="index.html">Kaira</a>
+    <div class="ms-auto">
+      <span class="fw-bold text-secondary">👑 Admin Panel</span>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container py-5">
+    <h2 class="mb-4 fw-bold">🛠️ จัดการสินค้า</h2>
+
+    <form id="productForm" class="row g-3 mb-5" enctype="multipart/form-data">
+      <input type="hidden" name="id" id="productId">
+
+      <div class="col-md-6">
+        <label class="form-label">ชื่อสินค้า</label>
+        <input type="text" name="name" id="name" class="form-control" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">หมวดหมู่</label>
+        <input type="text" name="category" id="category" class="form-control" required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">ราคา</label>
+        <input type="number" name="price" id="price" class="form-control" required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">สต็อก</label>
+        <input type="number" name="stock" id="stock" class="form-control" required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">รูปภาพ</label>
+        <input type="file" name="image" id="image" class="form-control">
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-dark px-4">💾 บันทึกสินค้า</button>
+      </div>
+    </form>
+
+    <h3 class="mb-3 fw-semibold">📦 รายการสินค้า</h3>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">รูป</th>
+            <th scope="col">ชื่อ</th>
+            <th scope="col">หมวดหมู่</th>
+            <th scope="col">สต็อก</th>
+            <th scope="col">ราคา</th>
+            <th scope="col">การจัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="productTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script>
+    async function loadProducts() {
+      const res = await fetch('/api/admin/products');
+      const products = await res.json();
+      const tbody = document.getElementById('productTableBody');
+      tbody.innerHTML = '';
+      products.forEach(p => {
+        const tr = document.createElement('tr');
+        const image = p.image ? `<img src='/${p.image}' width='50' class='rounded'>` : '-';
+        tr.innerHTML = `
+          <td>${image}</td>
+          <td>${p.name}</td>
+          <td>${p.category}</td>
+          <td>${p.stock || 0}</td>
+          <td>${p.price}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-warning me-1" onclick='editProduct(${JSON.stringify(p)})'>✏️</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${p.id})">🗑</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function editProduct(p) {
+      document.getElementById('productId').value = p.id;
+      document.getElementById('name').value = p.name;
+      document.getElementById('category').value = p.category;
+      document.getElementById('price').value = p.price;
+      document.getElementById('stock').value = p.stock || 0;
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm("ยืนยันการลบสินค้านี้?")) return;
+      await fetch('/api/admin/products/' + id, { method: 'DELETE' });
+      loadProducts();
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const id = document.getElementById('productId').value;
+      const formData = new FormData(document.getElementById('productForm'));
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? '/api/admin/products/' + id : '/api/admin/products';
+
+      await fetch(url, { method, body: formData });
+      document.getElementById('productForm').reset();
+      loadProducts();
+    });
+
+    loadProducts();
+  </script>
+</body>
+
 </html>
+
+
+
+

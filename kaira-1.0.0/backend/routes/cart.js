@@ -48,3 +48,24 @@ async function deleteItem(id) {
   await fetch('/api/cart/' + id, { method: 'DELETE' });
   fetchCart();
 }
+
+// ก่อน INSERT ให้ตรวจสอบว่าสินค้าในตะกร้ารวมกับที่กำลังเพิ่ม <= stock
+db.get("SELECT stock FROM products WHERE id = ?", [product_id], (err, row) => {
+  if (err || !row) return res.status(400).json({ success: false, error: 'ไม่พบสินค้า' });
+
+  const availableStock = row.stock;
+  db.get("SELECT SUM(quantity) AS total FROM cart WHERE product_id = ? AND session_id = ?", [product_id, session_id], (err2, row2) => {
+    const currentQty = row2?.total || 0;
+    if (currentQty + quantity > availableStock) {
+      return res.status(400).json({ success: false, error: 'จำนวนเกินสต็อก' });
+    }
+
+    db.run("INSERT INTO cart (product_id, quantity, session_id) VALUES (?, ?, ?)",
+      [product_id, quantity, session_id],
+      function(err3) {
+        if (err3) return res.status(500).json({ success: false, error: err3.message });
+        res.json({ success: true, cart_id: this.lastID });
+      }
+    );
+  });
+});
