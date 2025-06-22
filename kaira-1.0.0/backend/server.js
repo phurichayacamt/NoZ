@@ -5,6 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 
+
 const app = express();
 const PORT = 3000;
 
@@ -126,10 +127,18 @@ app.get('/admin.html', (req, res) => {
 app.get('/', (req, res) => {
   res.send('✅ API is running...');
 });
+// const registerRoutes = require('./routes/register');
+// const loginRoutes = require('./routes/login');
 
 // ✅ Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+
+
+
+
+
+
 
 
