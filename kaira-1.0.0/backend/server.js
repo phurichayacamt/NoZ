@@ -72,17 +72,31 @@ app.post('/api/cart', (req, res) => {
 
 // ✅ API: แสดงตะกร้าสินค้า
 app.get('/api/cart/guest', (req, res) => {
-  db.all('SELECT * FROM carts WHERE session_id = guest', (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message 
-    });
-    res.json(rows);
+  const sql = 
+      `SELECT
+          carts.id,
+          carts.quantity,
+          products.id AS product_id,
+          products.name,
+          products.price,
+          products.image,
+          products.stock
+      FROM carts
+      JOIN products ON carts.product_id = products.id
+      WHERE carts.session_id = ?`
+  ;
+  db.all(sql, ['guest'], (err, rows) => {
+      if (err) {
+          return res.status(500).json({ error: err.message });
+      }
+      res.json(rows);
   });
 });
 
 
 // ✅ API: ลบสินค้าจากตะกร้า
 app.delete('/api/cart/:id', (req, res) => {
-  db.run("DELETE FROM cart WHERE id = ?", [req.params.id], function (err) {
+  db.run("DELETE FROM carts WHERE id = ?", [req.params.id], function (err) {
     if (err) return res.status(500).json({ success: false, error: err.message });
     res.json({ success: true });
   });
@@ -91,7 +105,7 @@ app.delete('/api/cart/:id', (req, res) => {
 // ✅ API: อัปเดตจำนวนสินค้าในตะกร้า
 app.put('/api/cart/:id', (req, res) => {
   const { quantity } = req.body;
-  db.run("UPDATE cart SET quantity = ? WHERE id = ?", [quantity, req.params.id], function(err) {
+  db.run("UPDATE carts SET quantity = ? WHERE id = ?", [quantity, req.params.id], function(err) {
     if (err) return res.status(500).json({ success: false, error: err.message });
     res.json({ success: true });
   });
