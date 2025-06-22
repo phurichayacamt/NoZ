@@ -264,7 +264,7 @@
         .then(products => renderProducts(products));
     }
 
-    // โหลดหมวดหมู่ (เรียง A-Z)
+    // โหลดหมวดหมู่สินค้า
     function loadCategories() {
       fetch('http://localhost:3000/api/products')
         .then(res => res.json())
@@ -279,15 +279,17 @@
         });
     }
 
+    
     // ฟังก์ชันอัปเดตเลขตะกร้า
     function updateCartCount() {
+      console.log('Fetching cart items...');
       fetch('http://localhost:3000/api/cart/guest')
         .then(res => res.json())
         .then(items => {
           let total = 0;
           items.forEach(item => total += item.quantity);
           document.querySelectorAll('.cart-count').forEach(el => el.textContent = `(${total})`);
-        });
+        }) 
     }
 
     // ฟังก์ชันแจ้งเตือนแบบ toast
@@ -356,40 +358,10 @@ function addToCart(product_id) {
       addToCart(id);
     });
 
-    function renderCartSidebar() {
-  fetch('http://localhost:3000/api/cart/guest')
-    .then(res => res.json())
-    .then(items => {
-      let html = '';
-      let total = 0;
-      items.forEach(item => {
-        total += item.price * item.quantity;
-        html += `
-          <li class="mb-2 border-bottom pb-2">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <div class="fw-bold">${item.name}</div>
-                <div class="text-muted small">${item.description || ''}</div>
-                <div class="small">จำนวน: ${item.quantity}</div>
-              </div>
-              <div class="text-end">
-                <div class="fw-bold">${item.price * item.quantity} บาท</div>
-              </div>
-            </div>
-          </li>
-        `;
-      });
-      document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
-      document.getElementById('cart-total').textContent = total + ' บาท';
-    });
-}
 
-document.getElementById('offcanvasCart').addEventListener('show.bs.offcanvas', function() {
-  renderCartSidebar();
-});
 
 function renderCartSidebar() {
-  fetch('http://localhost:3000/api/cart/guest')
+  fetch('http://localhost:3000/api/carts/guest')
     .then(res => res.json())
     .then(items => {
       let html = '';
@@ -431,9 +403,11 @@ document.getElementById('offcanvasCart').addEventListener('show.bs.offcanvas', f
 
 // Event delegation สำหรับลบ/แก้จำนวน
 document.getElementById('cart-item-list').addEventListener('click', function(e) {
+  // console.log(cartId)
   const li = e.target.closest('li[data-cart-id]');
   if (!li) return;
   const cartId = li.getAttribute('data-cart-id');
+  console.log(cartId)
 
   // ลบสินค้า
   if (e.target.classList.contains('btn-cart-delete')) {
@@ -505,65 +479,12 @@ function addToCart(product_id) {
     });
 }
 
-function updateCartQty(cartId, qty) {
-  fetch(`http://localhost:3000/api/cart/${cartId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ quantity: qty })
-  })
-    .then(res => res.json())
-    .then(result => {
-      if (result.success) {
-        renderCartSidebar();
-        updateCartCount();
-      } else {
-        showToast(result.error || 'ไม่สามารถอัปเดตจำนวน');
-      }
-    });
-}
+document.addEventListener('DOMContentLoaded', () => {
+  fetchCart(); // ใช้จาก cart.js
+});
+
 
 
 
   </script>
  
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-  function saveCart() {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartCount();
-  }
-
-  function updateCartCount() {
-    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-    document.querySelectorAll(".cart-count").forEach(el => el.textContent = `(${count})`);
-  }
-
-  function addToCart(product) {
-    const found = cart.find(item => item.name === product.name);
-    if (found) {
-      found.quantity++;
-    } else {
-      cart.push({ ...product, quantity: 1 });
-    }
-    saveCart();
-    alert("เพิ่มสินค้าลงตะกร้าแล้ว!");
-  }
-
-  document.querySelectorAll(".add-cart").forEach(button => {
-    button.addEventListener("click", (e) => {
-      const card = e.target.closest(".product-card");
-      const name = card.querySelector(".product-name").textContent;
-      const price = parseFloat(card.querySelector(".product-price").textContent.replace(/[^\d.]/g, ""));
-      const image = card.querySelector("img").getAttribute("src");
-
-      addToCart({ name, price, image });
-    });
-  });
-
-  updateCartCount();
-});
-</script>
-</body>
-</html>
