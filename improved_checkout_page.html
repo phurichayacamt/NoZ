@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Checkout | Kaira</title>
@@ -19,6 +19,196 @@
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   
+  <style>
+    .checkout-step {
+      position: relative;
+      padding: 1.5rem;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .checkout-step:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    
+    .step-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #f8f9fa;
+      padding-bottom: 1rem;
+    }
+    
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 1rem;
+    }
+    
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+      color: #333;
+    }
+    
+    .cart-item {
+      padding: 1.5rem;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      background: white;
+      transition: all 0.3s ease;
+    }
+    
+    .cart-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+    }
+    
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .qty-btn {
+      width: 35px;
+      height: 35px;
+      border: 2px solid #667eea;
+      background: white;
+      color: #667eea;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+    
+    .qty-btn:hover {
+      background: #667eea;
+      color: white;
+    }
+    
+    .qty-input {
+      width: 60px;
+      text-align: center;
+      border: 2px solid #e9ecef;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    
+    .delete-btn {
+      color: #dc3545;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .delete-btn:hover {
+      color: #c82333;
+      transform: scale(1.1);
+    }
+    
+    .payment-method {
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .payment-method:hover {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+    }
+    
+    .payment-method.selected {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.1);
+    }
+    
+    .checkout-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .order-summary {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 15px;
+      padding: 2rem;
+      position: sticky;
+      top: 100px;
+    }
+    
+    .success-animation {
+      animation: successPulse 0.6s ease-in-out;
+    }
+    
+    @keyframes successPulse {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .empty-cart {
+      text-align: center;
+      padding: 3rem;
+      color: #6c757d;
+    }
+    
+    .empty-cart i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+  </style>
 </head>
 <body class="checkout-page bg-light">
 
@@ -56,7 +246,9 @@
         </div>
         <div class="col-3 col-lg-auto">
           <ul class="list-unstyled d-flex m-0">
-            
+            <li class="d-none d-lg-block">
+              <a href="index.html" class="text-uppercase mx-3">Wishlist <span class="wishlist-count">(0)</span></a>
+            </li>
             <li class="d-none d-lg-block">
               <a href="shop.html" class="text-uppercase mx-3">Cart <span class="cart-count" id="nav-cart-count">(0)</span></a>
             </li>
@@ -367,12 +559,19 @@
               </div>
               <div class="col-md-3">
                 <div class="qty-controls">
-                  ${item.quantity}
+                  <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                  <input type="number" class="form-control qty-input" value="${item.quantity}" 
+                         onchange="setQuantity(${index}, this.value)" min="1">
+                  <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
                 </div>
               </div>
               <div class="col-md-2 text-center">
                 <div class="fw-bold">${item.price * item.quantity} บาท</div>
               </div>
+              <div class="col-md-1 text-end">
+                <button class="delete-btn" onclick="removeItem(${index})" title="ลบสินค้า">
+                  <i class="fas fa-trash"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -442,6 +641,28 @@
       }
     }
     
+    // Remove item from cart
+    async function removeItem(index) {
+      const item = cartItems[index];
+      
+      if (confirm('คุณต้องการลบสินค้านี้ออกจากตะกร้าหรือไม่?')) {
+        try {
+          const response = await fetch(`${API_BASE}/cart/item/${item.id}`, {
+            method: 'DELETE'
+          });
+          
+          if (response.ok) {
+            cartItems.splice(index, 1);
+            renderCartItems();
+            updateOrderSummary();
+            updateNavCartCount();
+            validateCheckoutButton();
+          }
+        } catch (error) {
+          console.error('Error removing item:', error);
+        }
+      }
+    }
     
     // Update order summary
     function updateOrderSummary() {
@@ -471,320 +692,4 @@
           this.classList.add('selected');
           
           // Show/hide payment details
-          document.querัySelectorAll('.payment-details').forEach(d => d.style.display = 'none');
-          document.querySelector(`.payment-details[data-method="${radio.value}"]`).style.display = 'block';
-        });
-
-        // Validate checkout button
-        validateCheckoutButton(); 
-      });
-    }
-   function loadCheckoutCart() {
-      fetch('http://localhost:3000/api/cart/guest')
-        .then(res => res.json())
-        .then(items => {
-          let html = '';
-          let total = 0;
-          items.forEach(item => {
-            html += `
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="fw-bold">${item.name}</div>
-                  <div class="small text-muted">${item.description || ''}</div>
-                  <div class="small">จำนวน: ${item.quantity}</div>
-                </div>
-                <div class="fw-bold">${item.price * item.quantity} บาท</div>
-              </li>
-            `;
-            total += item.price * item.quantity;
-          });
-          document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
-          document.getElementById('checkout-cart-total').textContent = total + ' บาท';
-        });
-    }
-
-  // ฟังก์ชันในการอัปเดตปุ่ม "ยืนยันคำสั่งซื้อ"
-  function validateCheckoutButton() {
-    const checkoutButton = document.getElementById('place-order-btn');
-
-    // ตรวจสอบว่าในตะกร้ามีสินค้าอยู่หรือไม่
-    if (cartItems.length > 0) {
-      checkoutButton.disabled = false;  // เปิดใช้งานปุ่ม
-    } else {
-      checkoutButton.disabled = true;   // ปิดใช้งานปุ่ม
-    }
-  }
-
-  // ฟังก์ชันยืนยันการชำระเงิน (ลบสินค้าจากตะกร้าและแสดงข้อความสำเร็จ)
-  function checkout() {
-    // ลบสินค้าจากตะกร้า
-    fetch('http://localhost:3000/api/cart/guest', {
-      method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(result => {
-      if (result.success) {
-        // แสดงข้อความชำระเงินสำเร็จ
-        document.getElementById('successModal').classList.add('show');
-        document.getElementById('successModal').style.display = 'block'; // แสดง Modal
-
-        // ปิดตะกร้าหลังจากยืนยัน
-        loadCheckoutCart();
-        
-        // ปรับปุ่มกลับไปหน้าแรก
-        setTimeout(function() {
-          window.location.href = "index.html"; // ไปยังหน้า home หลังจาก 3 วินาที
-        }, 3000);  // 3000 มิลลิวินาที (3 วินาที)
-      }
-    })
-    .catch(error => {
-      console.error('Error during checkout:', error);
-    });
-  }
-
-  // ฟังก์ชันโหลดข้อมูลจากตะกร้า
-  function loadCheckoutCart() {
-    fetch('http://localhost:3000/api/cart/guest')
-      .then(res => res.json())
-      .then(items => {
-        let html = '';
-        let total = 0;
-        items.forEach(item => {
-          html += `
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <div>
-                <div class="fw-bold">${item.name}</div>
-                <div class="small text-muted">${item.description || ''}</div>
-                <div class="small">จำนวน: ${item.quantity}</div>
-              </div>
-              <div class="fw-bold">${item.price * item.quantity} บาท</div>
-            </li>
-          `;
-          total += item.price * item.quantity;
-        });
-        document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
-        document.getElementById('checkout-cart-total').textContent = total + ' บาท';
-      });
-  }
-
-  // เมื่อโหลดหน้า
-  document.addEventListener('DOMContentLoaded', function() {
-    loadCheckoutCart();
-    document.getElementById('checkout-btn').onclick = checkout;
-    validateCheckoutButton(); // ตรวจสอบสถานะปุ่ม
-  });
-
-
-
-  // Event delegation สำหรับลบ/เพิ่มลดจำนวน
-  document.addEventListener('DOMContentLoaded', () => {
-    loadCheckoutCart();
-    document.getElementById('checkout-btn').onclick = checkout;
-
-    document.getElementById('checkout-cart-list').addEventListener('click', function(e) {
-      const li = e.target.closest('li[data-cart-id]');
-      if (!li) return;
-      const cartId = li.getAttribute('data-cart-id');
-
-      // ลบสินค้า
-      if (e.target.classList.contains('btn-cart-delete')) {
-        fetch(`http://localhost:3000/api/cart/item/${cartId}`, { method: 'DELETE' })
-          .then(res => res.json())
-          .then(result => {
-            if (result.success) loadCheckoutCart();
-          });
-      }
-
-      // เพิ่ม/ลดจำนวน
-      if (e.target.classList.contains('btn-qty-increase') || e.target.classList.contains('btn-qty-decrease')) {
-        const input = li.querySelector('.cart-qty-input');
-        let qty = parseInt(input.value, 10);
-        if (e.target.classList.contains('btn-qty-increase')) qty++;
-        if (e.target.classList.contains('btn-qty-decrease') && qty > 1) qty--;
-        input.value = qty;
-        updateCartQty(cartId, qty);
-      }
-    });
-
-    // ใส่ event สำหรับเปลี่ยนจำนวน (input type number)
-    document.getElementById('checkout-cart-list').addEventListener('change', function(e) {
-      if (e.target.classList.contains('cart-qty-input')) {
-        const li = e.target.closest('li[data-cart-id]');
-        const cartId = li.getAttribute('data-cart-id');
-        let qty = parseInt(e.target.value, 10);
-        if (qty < 1 || isNaN(qty)) qty = 1;
-        e.target.value = qty;
-        updateCartQty(cartId, qty);
-      }
-    });
-
-    function updateCartQty(cartId, qty) {
-      fetch(`http://localhost:3000/api/cart/item/${cartId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantity: qty })
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) loadCheckoutCart();
-        });
-    }
-  });
-  </script>
-</body>
-</html>
-
-
- <script src="js/jquery.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/SmoothScroll.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-  <script src="js/script.min.js"></script>
-  <script>
-    // โหลดสินค้าในตะกร้า
-    function loadCheckoutCart() {
-      fetch('http://localhost:3000/api/cart/guest')
-        .then(res => res.json())
-        .then(items => {
-          let html = '';
-          let total = 0;
-          items.forEach(item => {
-            html += `
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="fw-bold">${item.name}</div>
-                  <div class="small text-muted">${item.description || ''}</div>
-                  <div class="small">จำนวน: ${item.quantity}</div>
-                </div>
-                <div class="fw-bold">${item.price * item.quantity} บาท</div>
-              </li>
-            `;
-            total += item.price * item.quantity;
-          });
-          document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
-          document.getElementById('checkout-cart-total').textContent = total + ' บาท';
-        });
-    }
-
-    // ยืนยันชำระเงิน (ลบตะกร้า)
-    function checkout() {
-      fetch('http://localhost:3000/api/cart/guest', {
-        method: 'DELETE'
-      })
-      .then(res => res.json())
-      .then(result => {
-        if(result.success) {
-          document.getElementById('checkout-success').classList.remove('d-none');
-          loadCheckoutCart();
-        }
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadCheckoutCart();
-      document.getElementById('checkout-btn').onclick = checkout;
-    });
-
-    function loadCheckoutCart() {
-    fetch('http://localhost:3000/api/cart/guest')
-      .then(res => res.json())
-      .then(items => {
-        let html = '';
-        let total = 0;
-        items.forEach(item => {
-          html += `
-            <li class="list-group-item d-flex justify-content-between align-items-center" data-cart-id="${item.id}">
-              <div>
-                <div class="fw-bold">${item.name}</div>
-                <div class="small text-muted">${item.description || ''}</div>
-                <div class="input-group input-group-sm mt-2" style="width:120px;">
-                  <button class="btn btn-outline-secondary btn-qty-decrease" type="button">-</button>
-                  <input type="number" class="form-control text-center cart-qty-input" min="1" value="${item.quantity}" style="max-width:50px;">
-                  <button class="btn btn-outline-secondary btn-qty-increase" type="button">+</button>
-                </div>
-              </div>
-              <div class="text-end">
-                <div class="fw-bold">${item.price * item.quantity} บาท</div>
-                <button class="btn btn-sm btn-outline-danger mt-2 btn-cart-delete">ลบ</button>
-              </div>
-            </li>
-          `;
-          total += item.price * item.quantity;
-        });
-        document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
-        document.getElementById('checkout-cart-total').textContent = total + ' บาท';
-      });
-  }
-
-  // ยืนยันชำระเงิน (ลบตะกร้า)
-  function checkout() {
-    fetch('http://localhost:3000/api/cart/guest', {
-      method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(result => {
-      if(result.success) {
-        document.getElementById('checkout-success').classList.remove('d-none');
-        loadCheckoutCart();
-      }
-    });
-  }
-
-  // Event delegation สำหรับลบ/เพิ่มลดจำนวน
-  document.addEventListener('DOMContentLoaded', () => {
-    loadCheckoutCart();
-    document.getElementById('checkout-btn').onclick = checkout;
-
-    document.getElementById('checkout-cart-list').addEventListener('click', function(e) {
-      const li = e.target.closest('li[data-cart-id]');
-      if (!li) return;
-      const cartId = li.getAttribute('data-cart-id');
-
-      // ลบสินค้า
-      if (e.target.classList.contains('btn-cart-delete')) {
-        fetch(`http://localhost:3000/api/cart/item/${cartId}`, { method: 'DELETE' })
-          .then(res => res.json())
-          .then(result => {
-            if (result.success) loadCheckoutCart();
-          });
-      }
-
-      // เพิ่ม/ลดจำนวน
-      if (e.target.classList.contains('btn-qty-increase') || e.target.classList.contains('btn-qty-decrease')) {
-        const input = li.querySelector('.cart-qty-input');
-        let qty = parseInt(input.value, 10);
-        if (e.target.classList.contains('btn-qty-increase')) qty++;
-        if (e.target.classList.contains('btn-qty-decrease') && qty > 1) qty--;
-        input.value = qty;
-        updateCartQty(cartId, qty);
-      }
-    });
-
-    // ใส่ event สำหรับเปลี่ยนจำนวน (input type number)
-    document.getElementById('checkout-cart-list').addEventListener('change', function(e) {
-      if (e.target.classList.contains('cart-qty-input')) {
-        const li = e.target.closest('li[data-cart-id]');
-        const cartId = li.getAttribute('data-cart-id');
-        let qty = parseInt(e.target.value, 10);
-        if (qty < 1 || isNaN(qty)) qty = 1;
-        e.target.value = qty;
-        updateCartQty(cartId, qty);
-      }
-    });
-
-    function updateCartQty(cartId, qty) {
-      fetch(`http://localhost:3000/api/cart/item/${cartId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantity: qty })
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) loadCheckoutCart();
-        });
-    }
-  });
-
-  // ฟังก์ชันในการอัปเดตปุ่ม "ยืนยันคำสั่งซื้อ"
-
+          document.quer

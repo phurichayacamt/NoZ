@@ -1,114 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin - จัดการสินค้า</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-4">
-  <div class="container">
-    <h1 class="mb-4">🛠️ Admin - จัดการสินค้า</h1>
-
-    <form id="productForm" class="mb-5" enctype="multipart/form-data">
-      <input type="hidden" name="id" id="productId">
-      <div class="mb-3">
-        <label>ชื่อสินค้า</label>
-        <input type="text" name="name" id="name" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label>หมวดหมู่</label>
-        <input type="text" name="category" id="category" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label>ราคา</label>
-        <input type="number" name="price" id="price" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label>สต็อก</label>
-        <input type="number" name="stock" id="stock" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label>รูปภาพ</label>
-        <input type="file" name="image" id="image" class="form-control">
-      </div>
-      <button type="submit" class="btn btn-primary">💾 บันทึกสินค้า</button>
-    </form>
-
-    <h2 class="mb-3">📦 รายการสินค้า</h2>
-    <table class="table table-bordered" id="productTable">
-      <thead>
-        <tr>
-          <th>รูป</th>
-          <th>ชื่อ</th>
-          <th>หมวดหมู่</th>
-          <th>สต็อก</th>
-          <th>ราคา</th>
-          <th>การจัดการ</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <script>
-    async function loadProducts() {
-      const res = await fetch('/api/admin/products');
-      const products = await res.json();
-      const tbody = document.querySelector('#productTable tbody');
-      tbody.innerHTML = '';
-      products.forEach(p => {
-        const tr = document.createElement('tr');
-        const image = p.image ? `<img src='/${p.image}' width='50'>` : '-';
-        tr.innerHTML = `
-          <td>${image}</td>
-          <td>${p.name}</td>
-          <td>${p.category}</td>
-          <td>${p.stock || 0}</td>
-          <td>${p.price}</td>
-          <td>
-            <button class="btn btn-sm btn-warning" onclick='editProduct(${JSON.stringify(p)})'>✏️ แก้ไข</button>
-            <button class="btn btn-sm btn-danger" onclick="deleteProduct(${p.id})">🗑 ลบ</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function editProduct(p) {
-      document.getElementById('productId').value = p.id;
-      document.getElementById('name').value = p.name;
-      document.getElementById('category').value = p.category;
-      document.getElementById('price').value = p.price;
-      document.getElementById('stock').value = p.stock || 0;
-    }
-
-    async function deleteProduct(id) {
-      if (!confirm("ยืนยันการลบสินค้านี้?")) return;
-      await fetch('/api/admin/products/' + id, { method: 'DELETE' });
-      loadProducts();
-    }
-
-    document.getElementById('productForm').addEventListener('submit', async e => {
-      e.preventDefault();
-      const id = document.getElementById('productId').value;
-      const formData = new FormData(document.getElementById('productForm'));
-      const method = id ? 'PUT' : 'POST';
-      const url = id ? '/api/admin/products/' + id : '/api/admin/products';
-
-      await fetch(url, {
-        method,
-        body: formData
-      });
-
-      document.getElementById('productForm').reset();
-      loadProducts();
-    });
-
-    loadProducts();
-  </script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="th">
 
@@ -217,6 +106,7 @@
       document.getElementById('category').value = p.category;
       document.getElementById('price').value = p.price;
       document.getElementById('stock').value = p.stock || 0;
+      
     }
 
     async function deleteProduct(id) {
@@ -235,7 +125,8 @@
       await fetch(url, { method, body: formData });
       document.getElementById('productForm').reset();
       loadProducts();
-    });
+  
+});
 
     loadProducts();
   </script>

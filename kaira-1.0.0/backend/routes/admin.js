@@ -69,4 +69,5 @@ router.put('/products/:id', upload.single('image'), (req, res) => {
   });
 });
 
+
 module.exports = router;
