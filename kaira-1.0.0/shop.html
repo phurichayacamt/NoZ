@@ -325,17 +325,29 @@
       }, 2000);
     }
 
-    // ฟังก์ชัน Add to Cart
-    function addToCart(product_id) {
-      fetch('http://localhost:3000/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          product_id: product_id,
-          quantity: 1,
-          session_id: 'guest'
+// ฟังก์ชัน Add to Cart
+function addToCart(product_id) {
+  // ดึงข้อมูลตะกร้าปัจจุบัน
+  fetch('http://localhost:3000/api/cart/guest')
+    .then(res => res.json())
+    .then(cart => {
+      // ค้นหาว่ามีสินค้าที่มี product_id เดียวกันในตะกร้าหรือไม่
+      const existingItem = cart.find(item => item.product_id === product_id);
+
+      if (existingItem) {
+        // ถ้ามีสินค้านั้นอยู่แล้วในตะกร้า ให้เพิ่มจำนวน
+        updateExistingCartItem(existingItem.id, existingItem.quantity + 1);
+      } else {
+        // ถ้าไม่มีสินค้านั้นในตะกร้า ให้เพิ่มสินค้าใหม่ลงไป
+        fetch('http://localhost:3000/api/cart', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            product_id: product_id,
+            quantity: 1,
+            session_id: 'guest'
+          })
         })
-      })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -345,7 +357,10 @@
             showToast('เกิดข้อผิดพลาด: ' + (result.error || 'ไม่สามารถเพิ่มสินค้า'));
           }
         });
-    }
+      }
+    });
+}
+
     // โหลดเมื่อหน้าเว็บเสร็จ
     document.addEventListener('DOMContentLoaded', () => {
       loadProducts();
@@ -376,19 +391,18 @@
 
 
     function renderCartSidebar() {
-      fetch('http://localhost:3000/api/cart/guest')
-        .then(res => res.json())
-        .then(items => {
-          let html = '';
-          let total = 0;
-          items.forEach(item => {
-            const subtotal = item.price * item.quantity;
-            total += subtotal;
-            html += `
+  fetch('http://localhost:3000/api/cart/guest')
+    .then(res => res.json())
+    .then(items => {
+      let html = '';
+      let total = 0;
+      items.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        html += `
           <li class="mb-2 border-bottom pb-2 d-flex justify-content-between align-items-center" data-cart-id="${item.id}">
             <div class="d-flex align-items-center">
               <img src="/${item.image}" alt="${item.name}" width="50" class="me-2 rounded">
-             
               <div>
                 <div class="fw-bold">${item.name}</div>
                 <div class="text-muted small">เหลือในคลัง: ${item.stock}</div>
@@ -405,11 +419,12 @@
             </div>
           </li>
         `;
-          });
-          document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
-          document.getElementById('cart-total').textContent = total + ' บาท';
-        });
-    }
+      });
+      document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
+      document.getElementById('cart-total').textContent = total + ' บาท';
+    });
+}
+
 
     // เรียก renderCartSidebar ทุกครั้งที่เปิด offcanvas
     document.getElementById('offcanvasCart').addEventListener('show.bs.offcanvas', function () {
@@ -473,32 +488,24 @@
         });
     }
 
-    function addToCart(product_id) {
-      fetch('http://localhost:3000/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          product_id: product_id,
-          quantity: 1,
-          session_id: 'guest'
-        })
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('เพิ่มสินค้าลงตะกร้าแล้ว!');
-            updateCartCount();
-          } else {
-            showToast('เกิดข้อผิดพลาด: ' + (result.error || 'ไม่สามารถเพิ่มสินค้า'));
-          }
-        });
+// ฟังก์ชันอัปเดตจำนวนของสินค้าที่มีอยู่ในตะกร้า
+function updateExistingCartItem(cartItemId, newQty) {
+  fetch(`http://localhost:3000/api/cart/${cartItemId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ quantity: newQty })
+  })
+  .then(res => res.json())
+  .then(result => {
+    if (result.success) {
+      showToast('เพิ่มจำนวนสินค้าลงในตะกร้า');
+      updateCartCount();
+      renderCartSidebar(); // รีเฟรชข้อมูลในตะกร้า
+    } else {
+      showToast('ไม่สามารถเพิ่มจำนวนสินค้า');
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchCart(); // ใช้จาก cart.js
-    });
-
-
+  });
+}
 
 
   </script>

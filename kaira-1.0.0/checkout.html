@@ -17,6 +17,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
 </head>
 <body class="checkout-page bg-light">
 
@@ -27,7 +29,7 @@
         <div class="col-auto">
           <a class="navbar-brand text-white" href="index.html">
             <svg width="112" height="45" viewBox="0 0 112 45" xmlns="http://www.w3.org/2000/svg" fill="#111">
-              <!-- ... logo ... -->
+              <text x="10" y="30" font-family="serif" font-size="24" font-weight="bold">KAIRA</text>
             </svg>
           </a>
         </div>
@@ -58,20 +60,7 @@
               <a href="index.html" class="text-uppercase mx-3">Wishlist <span class="wishlist-count">(0)</span></a>
             </li>
             <li class="d-none d-lg-block">
-              <a href="shop.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span></a>
-            </li>
-            <li class="d-lg-none">
-              <a href="#" class="mx-2"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-            </li>
-            <li class="d-lg-none">
-              <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                aria-controls="offcanvasCart">
-                <svg width="24" height="24"><use xlink:href="#cart"></use></svg>
-              </a>
-            </li>
-            <li class="search-box" class="mx-2">
-              <a href="#search" class="search-button"><svg width="24" height="24"><use xlink:href="#search"></use></svg></a>
+              <a href="shop.html" class="text-uppercase mx-3">Cart <span class="cart-count" id="nav-cart-count">(0)</span></a>
             </li>
           </ul>
         </div>
@@ -80,156 +69,566 @@
   </nav>
 
   <!-- ===== Checkout Content ===== -->
-  <section class="container my-5">
-    <h2 class="mb-4 text-center">Checkout</h2>
-    <div class="card shadow p-4 mb-5">
-      <h5 class="mb-4">รายการสินค้าในตะกร้า</h5>
-      <ul class="list-group mb-4" id="checkout-cart-list"></ul>
-      <div class="d-flex justify-content-between align-items-center fs-5 mb-4">
-        <span>ราคารวมทั้งหมด</span>
-        <span id="checkout-cart-total">0 บาท</span>
-      </div>
-      <button class="btn btn-dark w-100" id="checkout-btn">ยืนยันการสั่งซื้อ</button>
-      <div class="mt-3 text-success text-center d-none" id="checkout-success">
-        ✅ ชำระเงินเรียบร้อยแล้ว ขอบคุณสำหรับการสั่งซื้อ!
-      </div>
-    </div>
-    <div class="text-center">
-      <a href="shop.html" class="btn btn-link text-decoration-none">← กลับไปเลือกซื้อสินค้า</a>
-    </div>
-  </section>
-
-  <!-- ===== Newsletter ===== -->
-  <section class="newsletter bg-light" style="background: url(images/pattern-bg.png) no-repeat;">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8 py-5 my-5">
-          <div class="subscribe-header text-center pb-3">
-            <h3 class="section-title text-uppercase">Sign Up for our newsletter</h3>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-8">
+        
+        <!-- Step 1: Cart Items -->
+        <div class="checkout-step" id="cart-step">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <h3 class="step-title">รายการสินค้าในตะกร้า</h3>
           </div>
-          <form id="form" class="d-flex flex-wrap gap-2">
-            <input type="text" name="email" placeholder="Your Email Addresss" class="form-control form-control-lg">
-            <button class="btn btn-dark btn-lg text-uppercase w-100">Sign Up</button>
+          <div id="cart-items-container"></div>
+        </div>
+
+        <!-- Step 2: Shipping Information -->
+        <div class="checkout-step" id="shipping-step">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <h3 class="step-title">ข้อมูลการจัดส่ง</h3>
+          </div>
+          <form id="shipping-form">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">ชื่อ *</label>
+                <input type="text" class="form-control" id="firstName" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">นามสกุล *</label>
+                <input type="text" class="form-control" id="lastName" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">อีเมล *</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">เบอร์โทรศัพท์ *</label>
+              <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">ที่อยู่ *</label>
+              <textarea class="form-control" id="address" rows="3" required></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="province" class="form-label">จังหวัด *</label>
+                <select class="form-control" id="province" required>
+                  <option value="">เลือกจังหวัด</option>
+                  <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+                  <option value="เชียงใหม่">เชียงใหม่</option>
+                  <option value="ภูเก็ต">ภูเก็ต</option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="district" class="form-label">อำเภอ/เขต *</label>
+                <input type="text" class="form-control" id="district" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="zipcode" class="form-label">รหัสไปรษณีย์ *</label>
+                <input type="text" class="form-control" id="zipcode" required>
+              </div>
+            </div>
           </form>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ===== Instagram Section ===== -->
-  <section class="instagram position-relative">
-    <div class="d-flex justify-content-center w-100 position-absolute bottom-0 z-1">
-      <a href="https://www.instagram.com/templatesjungle/" class="btn btn-dark px-5">Follow us on Instagram</a>
-    </div>
-    <div class="row g-0">
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item1.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item2.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item3.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item4.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item5.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img src="images/insta-item6.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-    </div>
-  </section>
+        <!-- Step 3: Payment Method -->
+        <div class="checkout-step" id="payment-step">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <h3 class="step-title">วิธีการชำระเงิน</h3>
+          </div>
+          <div class="payment-methods">
+            <div class="payment-method" data-method="credit-card">
+              <div class="d-flex align-items-center">
+                <input type="radio" name="payment" value="credit-card" id="credit-card" class="me-3">
+                <div>
+                  <label for="credit-card" class="fw-bold mb-1">บัตรเครดิต/เดบิต</label>
+                  <div class="small text-muted">Visa, Mastercard, JCB</div>
+                </div>
+                <div class="ms-auto">
+                  <i class="fab fa-cc-visa fa-2x me-2"></i>
+                  <i class="fab fa-cc-mastercard fa-2x"></i>
+                </div>
+              </div>
+              <div class="payment-details mt-3" id="credit-card-details" style="display: none;">
+                <div class="row">
+                  <div class="col-md-8 mb-3">
+                    <label class="form-label">หมายเลขบัตร</label>
+                    <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19">
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label class="form-label">CVV</label>
+                    <input type="text" class="form-control" placeholder="123" maxlength="3">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">เดือน/ปี หมดอายุ</label>
+                    <input type="text" class="form-control" placeholder="MM/YY" maxlength="5">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">ชื่อบนบัตร</label>
+                    <input type="text" class="form-control" placeholder="John Doe">
+                  </div>
+                </div>
+              </div>
+            </div>
 
-  <!-- ===== Footer ===== -->
-  <footer id="footer" class="mt-5">
-    <div class="container">
-      <div class="row d-flex flex-wrap justify-content-between py-5">
-        <!-- ...footer menu (เหมือน index.html) ... -->
-        <div class="col-md-3 col-sm-6">
-          <div class="footer-menu footer-menu-001">
-            <div class="footer-intro mb-4">
-              <a href="index.html">
-                <img src="images/main-logo.png" alt="logo">
-              </a>
+            <div class="payment-method" data-method="bank-transfer">
+              <div class="d-flex align-items-center">
+                <input type="radio" name="payment" value="bank-transfer" id="bank-transfer" class="me-3">
+                <div>
+                  <label for="bank-transfer" class="fw-bold mb-1">โอนเงินผ่านธนาคาร</label>
+                  <div class="small text-muted">โอนเงินเข้าบัญชีธนาคาร</div>
+                </div>
+                <div class="ms-auto">
+                  <i class="fas fa-university fa-2x"></i>
+                </div>
+              </div>
             </div>
-            <p>Gravida massa volutpat aenean odio. Amet, turpis erat nullam fringilla elementum diam in. Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit hendrerit.</p>
-            <div class="social-links">
-              <ul class="list-unstyled d-flex flex-wrap gap-3">
-                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#facebook"></use></svg></a></li>
-                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#twitter"></use></svg></a></li>
-                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#youtube"></use></svg></a></li>
-                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#pinterest"></use></svg></a></li>
-                <li><a href="#" class="text-secondary"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#instagram"></use></svg></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- ... (footer menu 002, 003, 004 ตาม index.html เดิม) ... -->
-        <div class="col-md-3 col-sm-6">
-          <div class="footer-menu footer-menu-002">
-            <h5 class="widget-title text-uppercase mb-4">Quick Links</h5>
-            <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
-              <li class="menu-item"><a href="index.html" class="item-anchor">Home</a></li>
-              <li class="menu-item"><a href="index.html" class="item-anchor">About</a></li>
-              <li class="menu-item"><a href="blog.html" class="item-anchor">Services</a></li>
-              <li class="menu-item"><a href="styles.html" class="item-anchor">Single item</a></li>
-              <li class="menu-item"><a href="#" class="item-anchor">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="footer-menu footer-menu-003">
-            <h5 class="widget-title text-uppercase mb-4">Help & Info</h5>
-            <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
-              <li class="menu-item"><a href="#" class="item-anchor">Track Your Order</a></li>
-              <li class="menu-item"><a href="#" class="item-anchor">Returns + Exchanges</a></li>
-              <li class="menu-item"><a href="#" class="item-anchor">Shipping + Delivery</a></li>
-              <li class="menu-item"><a href="#" class="item-anchor">Contact Us</a></li>
-              <li class="menu-item"><a href="#" class="item-anchor">Find us easy</a></li>
-              <li class="menu-item"><a href="index.html" class="item-anchor">Faqs</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="footer-menu footer-menu-004 border-animation-left">
-            <h5 class="widget-title text-uppercase mb-4">Contact Us</h5>
-            <p>Do you have any questions or suggestions? <a href="mailto:contact@yourcompany.com" class="item-anchor">contact@yourcompany.com</a></p>
-            <p>Do you need support? Give us a call. <a href="tel:+43 720 11 52 78" class="item-anchor">+43 720 11 52 78</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="border-top py-4">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 d-flex flex-wrap">
-            <div class="shipping">
-              <span>We ship with:</span>
-              <img src="images/arct-icon.png" alt="icon">
-              <img src="images/dhl-logo.png" alt="icon">
-            </div>
-            <div class="payment-option">
-              <span>Payment Option:</span>
-              <img src="images/visa-card.png" alt="card">
-              <img src="images/paypal-card.png" alt="card">
-              <img src="images/master-card.png" alt="card">
-            </div>
-          </div>
-          <div class="col-md-6 text-end">
-            <p>© Copyright 2022 Kaira. All rights reserved. Design by <a href="https://templatesjungle.com"
-                target="_blank">TemplatesJungle</a> Distribution By <a href="https://themewagon.com"
-                target="blank">ThemeWagon</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
 
-  <!-- ===== SCRIPTS ===== -->
-  <script src="js/jquery.min.js"></script>
+            <div class="payment-method" data-method="promptpay">
+              <div class="d-flex align-items-center">
+                <input type="radio" name="payment" value="promptpay" id="promptpay" class="me-3">
+                <div>
+                  <label for="promptpay" class="fw-bold mb-1">พร้อมเพย์</label>
+                  <div class="small text-muted">ชำระผ่าน QR Code</div>
+                </div>
+                <div class="ms-auto">
+                  <i class="fas fa-qrcode fa-2x text-primary"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary Sidebar -->
+      <div class="col-lg-4">
+        <div class="order-summary">
+          <h4 class="mb-4">สรุปคำสั่งซื้อ</h4>
+          
+          <div class="summary-line d-flex justify-content-between mb-3">
+            <span>ราคาสินค้า</span>
+            <span id="subtotal">0 บาท</span>
+          </div>
+          
+          <div class="summary-line d-flex justify-content-between mb-3">
+            <span>ค่าจัดส่ง</span>
+            <span id="shipping-cost">50 บาท</span>
+          </div>
+          
+          <div class="summary-line d-flex justify-content-between mb-3">
+            <span>ส่วนลด</span>
+            <span id="discount" class="text-success">-0 บาท</span>
+          </div>
+          
+          <hr>
+          
+          <div class="summary-line d-flex justify-content-between mb-4 fs-5 fw-bold">
+            <span>ยอดรวมทั้งหมด</span>
+            <span id="total-amount" class="text-primary">0 บาท</span>
+          </div>
+          
+          <div class="mb-3">
+            <label for="coupon" class="form-label">รหัสคูปอง</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="coupon" placeholder="ใส่รหัสคูปอง">
+              <button class="btn btn-outline-secondary" type="button" id="apply-coupon">ใช้</button>
+            </div>
+          </div>
+          
+          <button class="btn btn-primary checkout-btn w-100" id="place-order-btn" disabled>
+            <span id="order-btn-text">ยืนยันคำสั่งซื้อ</span>
+            <span id="order-btn-loading" class="d-none">
+              <span class="loading-spinner me-2"></span>กำลังดำเนินการ...
+            </span>
+          </button>
+          
+          <div class="mt-3 text-center">
+            <small class="text-muted">
+              <i class="fas fa-lock me-1"></i>
+              การชำระเงินของคุณได้รับการปกป้องอย่างปลอดภัย
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body text-center p-5">
+            <div class="success-animation">
+              <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+              <h3 class="mt-3 mb-3">ชำระเงินเรียบร้อยแล้ว!</h3>
+              <p class="text-muted mb-4">ขอบคุณสำหรับการสั่งซื้อ เราจะจัดส่งสินค้าให้คุณในเร็วๆ นี้</p>
+              <div class="d-grid gap-2">
+                <a href="shop.html" class="btn btn-primary">เลือกซื้อสินค้าต่อ</a>
+                <a href="index.html" class="btn btn-outline-secondary">กลับหน้าหลัก</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back to Shop Link -->
+    <div class="text-center mt-4">
+      <a href="shop.html" class="btn btn-link text-decoration-none">
+        <i class="fas fa-arrow-left me-2"></i>กลับไปเลือกซื้อสินค้า
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== Scripts ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Global variables
+    let cartItems = [];
+    let subtotal = 0;
+    let shippingCost = 50;
+    let discount = 0;
+    
+    // API Base URL
+    const API_BASE = 'http://localhost:3000/api';
+    
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadCartItems();
+      initializeEventListeners();
+      validateCheckoutButton();
+    });
+    
+    // Load cart items from API
+    async function loadCartItems() {
+      try {
+        const response = await fetch(`${API_BASE}/cart/guest`);
+        const items = await response.json();
+        
+        // Merge duplicate items
+        cartItems = mergeDuplicateItems(items);
+        
+        renderCartItems();
+        updateOrderSummary();
+        updateNavCartCount();
+        
+      } catch (error) {
+        console.error('Error loading cart:', error);
+        showEmptyCart();
+      }
+    }
+    
+    // Merge duplicate items by product ID
+    function mergeDuplicateItems(items) {
+      const merged = {};
+      
+      items.forEach(item => {
+        const key = `${item.name}-${item.price}`;
+        if (merged[key]) {
+          merged[key].quantity += item.quantity;
+        } else {
+          merged[key] = { ...item };
+        }
+      });
+      
+      return Object.values(merged);
+    }
+    
+    // Render cart items
+    function renderCartItems() {
+      const container = document.getElementById('cart-items-container');
+      
+      if (cartItems.length === 0) {
+        showEmptyCart();
+        return;
+      }
+      
+      let html = '';
+      cartItems.forEach((item, index) => {
+        html += `
+          <div class="cart-item" data-index="${index}">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                  <div class="product-image me-3">
+                    <div class="bg-light rounded" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                      <i class="fas fa-image text-muted fa-2x"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <h6 class="mb-1">${item.name}</h6>
+                    <p class="text-muted small mb-0">${item.description || 'สินค้าคุณภาพดี'}</p>
+                    <div class="text-primary fw-bold">${item.price} บาท</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="qty-controls">
+                  ${item.quantity}
+                </div>
+              </div>
+              <div class="col-md-2 text-center">
+                <div class="fw-bold">${item.price * item.quantity} บาท</div>
+              </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+    
+    // Show empty cart
+    function showEmptyCart() {
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = `
+        <div class="empty-cart">
+          <i class="fas fa-shopping-cart"></i>
+          <h5>ตะกร้าสินค้าว่างเปล่า</h5>
+          <p>ยังไม่มีสินค้าในตะกร้า กรุณาเลือกซื้อสินค้าก่อน</p>
+          <a href="shop.html" class="btn btn-primary">เลือกซื้อสินค้า</a>
+        </div>
+      `;
+      document.getElementById('place-order-btn').disabled = true;
+    }
+    
+    // Update quantity
+    async function updateQuantity(index, change) {
+      const item = cartItems[index];
+      const newQty = Math.max(1, item.quantity + change);
+      
+      try {
+        const response = await fetch(`${API_BASE}/cart/item/${item.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ quantity: newQty })
+        });
+        
+        if (response.ok) {
+          cartItems[index].quantity = newQty;
+          renderCartItems();
+          updateOrderSummary();
+          updateNavCartCount();
+        }
+      } catch (error) {
+        console.error('Error updating quantity:', error);
+      }
+    }
+    
+    // Set specific quantity
+    async function setQuantity(index, qty) {
+      const quantity = Math.max(1, parseInt(qty) || 1);
+      const item = cartItems[index];
+      
+      try {
+        const response = await fetch(`${API_BASE}/cart/item/${item.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ quantity })
+        });
+        
+        if (response.ok) {
+          cartItems[index].quantity = quantity;
+          renderCartItems();
+          updateOrderSummary();
+          updateNavCartCount();
+        }
+      } catch (error) {
+        console.error('Error setting quantity:', error);
+      }
+    }
+    
+    
+    // Update order summary
+    function updateOrderSummary() {
+      subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const total = subtotal + shippingCost - discount;
+      
+      document.getElementById('subtotal').textContent = `${subtotal} บาท`;
+      document.getElementById('total-amount').textContent = `${total} บาท`;
+    }
+    
+    // Update navigation cart count
+    function updateNavCartCount() {
+      const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('nav-cart-count').textContent = `(${totalItems})`;
+    }
+    
+    // Initialize event listeners
+    function initializeEventListeners() {
+      // Payment method selection
+      document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', function() {
+          const radio = this.querySelector('input[type="radio"]');
+          radio.checked = true;
+          
+          // Update visual selection
+          document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+          this.classList.add('selected');
+          
+          // Show/hide payment details
+          document.querัySelectorAll('.payment-details').forEach(d => d.style.display = 'none');
+          document.querySelector(`.payment-details[data-method="${radio.value}"]`).style.display = 'block';
+        });
+
+        // Validate checkout button
+        validateCheckoutButton(); 
+      });
+    }
+   function loadCheckoutCart() {
+      fetch('http://localhost:3000/api/cart/guest')
+        .then(res => res.json())
+        .then(items => {
+          let html = '';
+          let total = 0;
+          items.forEach(item => {
+            html += `
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-bold">${item.name}</div>
+                  <div class="small text-muted">${item.description || ''}</div>
+                  <div class="small">จำนวน: ${item.quantity}</div>
+                </div>
+                <div class="fw-bold">${item.price * item.quantity} บาท</div>
+              </li>
+            `;
+            total += item.price * item.quantity;
+          });
+          document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
+          document.getElementById('checkout-cart-total').textContent = total + ' บาท';
+        });
+    }
+
+    // ยืนยันชำระเงิน (ลบตะกร้า)
+    function checkout() {
+      fetch('http://localhost:3000/api/cart/guest', {
+        method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(result => {
+        if(result.success) {
+          document.getElementById('checkout-success').classList.remove('d-none');
+          loadCheckoutCart();
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCheckoutCart();
+      document.getElementById('checkout-btn').onclick = checkout;
+    });
+
+    function loadCheckoutCart() {
+    fetch('http://localhost:3000/api/cart/guest')
+      .then(res => res.json())
+      .then(items => {
+        let html = '';
+        let total = 0;
+        items.forEach(item => {
+          html += `
+            <li class="list-group-item d-flex justify-content-between align-items-center" data-cart-id="${item.id}">
+              <div>
+                <div class="fw-bold">${item.name}</div>
+                <div class="small text-muted">${item.description || ''}</div>
+                <div class="input-group input-group-sm mt-2" style="width:120px;">
+                  <button class="btn btn-outline-secondary btn-qty-decrease" type="button">-</button>
+                  <input type="number" class="form-control text-center cart-qty-input" min="1" value="${item.quantity}" style="max-width:50px;">
+                  <button class="btn btn-outline-secondary btn-qty-increase" type="button">+</button>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="fw-bold">${item.price * item.quantity} บาท</div>
+                <button class="btn btn-sm btn-outline-danger mt-2 btn-cart-delete">ลบ</button>
+              </div>
+            </li>
+          `;
+          total += item.price * item.quantity;
+        });
+        document.getElementById('checkout-cart-list').innerHTML = html || '<li class="list-group-item text-center text-muted">ไม่มีสินค้าในตะกร้า</li>';
+        document.getElementById('checkout-cart-total').textContent = total + ' บาท';
+      });
+  }
+
+  // ยืนยันชำระเงิน (ลบตะกร้า)
+  function checkout() {
+    fetch('http://localhost:3000/api/cart/guest', {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(result => {
+      if(result.success) {
+        document.getElementById('checkout-success').classList.remove('d-none');
+        loadCheckoutCart();
+      }
+    });
+  }
+
+  // Event delegation สำหรับลบ/เพิ่มลดจำนวน
+  document.addEventListener('DOMContentLoaded', () => {
+    loadCheckoutCart();
+    document.getElementById('checkout-btn').onclick = checkout;
+
+    document.getElementById('checkout-cart-list').addEventListener('click', function(e) {
+      const li = e.target.closest('li[data-cart-id]');
+      if (!li) return;
+      const cartId = li.getAttribute('data-cart-id');
+
+      // ลบสินค้า
+      if (e.target.classList.contains('btn-cart-delete')) {
+        fetch(`http://localhost:3000/api/cart/item/${cartId}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) loadCheckoutCart();
+          });
+      }
+
+      // เพิ่ม/ลดจำนวน
+      if (e.target.classList.contains('btn-qty-increase') || e.target.classList.contains('btn-qty-decrease')) {
+        const input = li.querySelector('.cart-qty-input');
+        let qty = parseInt(input.value, 10);
+        if (e.target.classList.contains('btn-qty-increase')) qty++;
+        if (e.target.classList.contains('btn-qty-decrease') && qty > 1) qty--;
+        input.value = qty;
+        updateCartQty(cartId, qty);
+      }
+    });
+
+    // ใส่ event สำหรับเปลี่ยนจำนวน (input type number)
+    document.getElementById('checkout-cart-list').addEventListener('change', function(e) {
+      if (e.target.classList.contains('cart-qty-input')) {
+        const li = e.target.closest('li[data-cart-id]');
+        const cartId = li.getAttribute('data-cart-id');
+        let qty = parseInt(e.target.value, 10);
+        if (qty < 1 || isNaN(qty)) qty = 1;
+        e.target.value = qty;
+        updateCartQty(cartId, qty);
+      }
+    });
+
+    function updateCartQty(cartId, qty) {
+      fetch(`http://localhost:3000/api/cart/item/${cartId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: qty })
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) loadCheckoutCart();
+        });
+    }
+  });
+  </script>
+</body>
+</html>
+
+
+ <script src="js/jquery.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/SmoothScroll.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -379,6 +778,3 @@
         });
     }
   });
-  </script>
-</body>
-</html>
