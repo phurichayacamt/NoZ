@@ -27,7 +27,6 @@ async function fetchCart() {
       </div>
     `;
   });
-
   document.getElementById('cartTotal').textContent = '฿' + total;
 }
 
@@ -43,12 +42,10 @@ async function updateQty(id, qty) {
   }
   fetchCart();
 }
-
 async function deleteItem(id) {
   await fetch('/api/cart/' + id, { method: 'DELETE' });
   fetchCart();
 }
-
 // ก่อน INSERT ให้ตรวจสอบว่าสินค้าในตะกร้ารวมกับที่กำลังเพิ่ม <= stock
 db.get("SELECT stock FROM products WHERE id = ?", [product_id], (err, row) => {
   if (err || !row) return res.status(400).json({ success: false, error: 'ไม่พบสินค้า' });

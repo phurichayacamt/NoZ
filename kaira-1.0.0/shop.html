@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <title>Shop Catalog | Kaira</title>
   <meta charset="utf-8">
@@ -21,6 +20,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="shop-page">
@@ -58,46 +58,48 @@
               <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                <li class="d-none d-lg-block">
+                  <a href="index.html" class="nav-link text-uppercase mx-3" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">Cart <span
+                      class="cart-count">(0)</span></a>
+                </li>
+
+
               </ul>
+
             </div>
           </div>
-        </div>
 
-        <div class="col-3 col-lg-auto">
-          <ul class="list-unstyled d-flex m-0">
+          <div class="col-3 col-lg-auto">
+            <ul class="list-unstyled d-flex m-0">
 
-            <li class="d-none d-lg-block">
-              <a href="index.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">Cart <span
-                  class="cart-count">(0)</span></a>
-            </li>
-            <li class="d-lg-none">
-              <a href="#" class="mx-2">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#heart"></use>
-                </svg>
-              </a>
-            </li>
-            <li class="d-lg-none">
-              <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                aria-controls="offcanvasCart">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#cart"></use>
-                </svg>
-              </a>
-            </li>
-            <li class="search-box" class="mx-2">
-              <a href="#search" class="search-button">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#search"></use>
-                </svg>
-              </a>
-            </li>
-          </ul>
+
+              <li class="d-lg-none">
+                <a href="#" class="mx-2">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="#heart"></use>
+                  </svg>
+                </a>
+              </li>
+              <li class="d-lg-none">
+                <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+                  aria-controls="offcanvasCart">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="#cart"></use>
+                  </svg>
+                </a>
+              </li>
+              <li class="search-box" class="mx-2">
+                <a href="#search" class="search-button">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="#search"></use>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
   </nav>
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
@@ -117,8 +119,6 @@
       <a href="checkout.html" class="btn btn-dark w-100 mt-4" id="checkout-btn">Continue to Checkout</a>
     </div>
   </div>
-
-
 
   <!-- ===== CATALOG SECTION ===== -->
   <section class="py-5 bg-light">
@@ -146,84 +146,8 @@
     </div>
   </section>
 
-  <!-- ===== Newsletter, Instagram, Footer (copy ตาม index.html) ===== -->
-  <section class="newsletter bg-light" style="background: url(images/pattern-bg.png) no-repeat;">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8 py-5 my-5">
-          <div class="subscribe-header text-center pb-3">
-            <h3 class="section-title text-uppercase">Sign Up for our newsletter</h3>
-          </div>
-          <form id="form" class="d-flex flex-wrap gap-2">
-            <input type="text" name="email" placeholder="Your Email Addresss" class="form-control form-control-lg">
-            <button class="btn btn-dark btn-lg text-uppercase w-100">Sign Up</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="instagram position-relative">
-    <div class="d-flex justify-content-center w-100 position-absolute bottom-0 z-1">
-      <a href="https://www.instagram.com/templatesjungle/" class="btn btn-dark px-5">Follow us on Instagram</a>
-    </div>
-    <div class="row g-0">
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img
-              src="images/insta-item1.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img
-              src="images/insta-item2.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img
-              src="images/insta-item3.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img
-              src="images/insta-item4.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img
-              src="images/insta-item5.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2">
-        <div class="insta-item"><a href="https://www.instagram.com/templatesjungle/" target="_blank"><img
-              src="images/insta-item6.jpg" alt="instagram" class="insta-image img-fluid"></a></div>
-      </div>
-    </div>
-  </section>
-  <footer id="footer" class="mt-5">
-    <div class="container">
-      <div class="row d-flex flex-wrap justify-content-between py-5">
-        <!-- ...footer menu ... -->
-      </div>
-    </div>
-    <div class="border-top py-4">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 d-flex flex-wrap">
-            <div class="shipping">
-              <span>We ship with:</span>
-              <img src="images/arct-icon.png" alt="icon">
-              <img src="images/dhl-logo.png" alt="icon">
-            </div>
-            <div class="payment-option">
-              <span>Payment Option:</span>
-              <img src="images/visa-card.png" alt="card">
-              <img src="images/paypal-card.png" alt="card">
-              <img src="images/master-card.png" alt="card">
-            </div>
-          </div>
-          <div class="col-md-6 text-end">
-            <p>© Copyright 2022 Kaira. All rights reserved. Design by <a href="https://templatesjungle.com"
-                target="_blank">TemplatesJungle</a> Distribution By <a href="https://themewagon.com"
-                target="blank">ThemeWagon</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+
+
 
   <!-- ===== SCRIPTS ===== -->
   <script src="js/jquery.min.js"></script>
@@ -295,7 +219,7 @@
     }
 
 
-    // ฟังก์ชันอัปเดตเลขตะกร้า
+    // อัปเดตเลขตะกร้า
     function updateCartCount() {
       console.log('Fetching cart items...');
       fetch('http://localhost:3000/api/cart/guest')
@@ -325,41 +249,41 @@
       }, 2000);
     }
 
-// ฟังก์ชัน Add to Cart
-function addToCart(product_id) {
-  // ดึงข้อมูลตะกร้าปัจจุบัน
-  fetch('http://localhost:3000/api/cart/guest')
-    .then(res => res.json())
-    .then(cart => {
-      // ค้นหาว่ามีสินค้าที่มี product_id เดียวกันในตะกร้าหรือไม่
-      const existingItem = cart.find(item => item.product_id === product_id);
-
-      if (existingItem) {
-        // ถ้ามีสินค้านั้นอยู่แล้วในตะกร้า ให้เพิ่มจำนวน
-        updateExistingCartItem(existingItem.id, existingItem.quantity + 1);
-      } else {
-        // ถ้าไม่มีสินค้านั้นในตะกร้า ให้เพิ่มสินค้าใหม่ลงไป
-        fetch('http://localhost:3000/api/cart', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            product_id: product_id,
-            quantity: 1,
-            session_id: 'guest'
-          })
-        })
+    // Add to Cart
+    function addToCart(product_id) {
+      // ดึงข้อมูลตะกร้าปัจจุบัน
+      fetch('http://localhost:3000/api/cart/guest')
         .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('เพิ่มสินค้าลงตะกร้าแล้ว!');
-            updateCartCount();
+        .then(cart => {
+          // ค้นหาว่ามีสินค้าที่มี product_id เดียวกันในตะกร้าหรือไม่
+          const existingItem = cart.find(item => item.product_id === product_id);
+
+          if (existingItem) {
+            // ถ้ามีสินค้านั้นอยู่แล้วในตะกร้า ให้เพิ่มจำนวน
+            updateExistingCartItem(existingItem.id, existingItem.quantity + 1);
           } else {
-            showToast('เกิดข้อผิดพลาด: ' + (result.error || 'ไม่สามารถเพิ่มสินค้า'));
+            // ถ้าไม่มีสินค้านั้นในตะกร้า ให้เพิ่มสินค้าใหม่ลงไป
+            fetch('http://localhost:3000/api/cart', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                product_id: product_id,
+                quantity: 1,
+                session_id: 'guest'
+              })
+            })
+              .then(res => res.json())
+              .then(result => {
+                if (result.success) {
+                  showToast('เพิ่มสินค้าลงตะกร้าแล้ว!');
+                  updateCartCount();
+                } else {
+                  showToast('เกิดข้อผิดพลาด: ' + (result.error || 'ไม่สามารถเพิ่มสินค้า'));
+                }
+              });
           }
         });
-      }
-    });
-}
+    }
 
     // โหลดเมื่อหน้าเว็บเสร็จ
     document.addEventListener('DOMContentLoaded', () => {
@@ -388,18 +312,16 @@ function addToCart(product_id) {
       addToCart(id);
     });
 
-
-
     function renderCartSidebar() {
-  fetch('http://localhost:3000/api/cart/guest')
-    .then(res => res.json())
-    .then(items => {
-      let html = '';
-      let total = 0;
-      items.forEach(item => {
-        const subtotal = item.price * item.quantity;
-        total += subtotal;
-        html += `
+      fetch('http://localhost:3000/api/cart/guest')
+        .then(res => res.json())
+        .then(items => {
+          let html = '';
+          let total = 0;
+          items.forEach(item => {
+            const subtotal = item.price * item.quantity;
+            total += subtotal;
+            html += `
           <li class="mb-2 border-bottom pb-2 d-flex justify-content-between align-items-center" data-cart-id="${item.id}">
             <div class="d-flex align-items-center">
               <img src="/${item.image}" alt="${item.name}" width="50" class="me-2 rounded">
@@ -419,12 +341,11 @@ function addToCart(product_id) {
             </div>
           </li>
         `;
-      });
-      document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
-      document.getElementById('cart-total').textContent = total + ' บาท';
-    });
-}
-
+          });
+          document.getElementById('cart-item-list').innerHTML = html || `<li class="text-muted text-center py-4">ตะกร้าว่าง</li>`;
+          document.getElementById('cart-total').textContent = total + ' บาท';
+        });
+    }
 
     // เรียก renderCartSidebar ทุกครั้งที่เปิด offcanvas
     document.getElementById('offcanvasCart').addEventListener('show.bs.offcanvas', function () {
@@ -488,24 +409,22 @@ function addToCart(product_id) {
         });
     }
 
-// ฟังก์ชันอัปเดตจำนวนของสินค้าที่มีอยู่ในตะกร้า
-function updateExistingCartItem(cartItemId, newQty) {
-  fetch(`http://localhost:3000/api/cart/${cartItemId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ quantity: newQty })
-  })
-  .then(res => res.json())
-  .then(result => {
-    if (result.success) {
-      showToast('เพิ่มจำนวนสินค้าลงในตะกร้า');
-      updateCartCount();
-      renderCartSidebar(); // รีเฟรชข้อมูลในตะกร้า
-    } else {
-      showToast('ไม่สามารถเพิ่มจำนวนสินค้า');
+    // อัปเดตจำนวนของสินค้าที่มีอยู่ในตะกร้า
+    function updateExistingCartItem(cartItemId, newQty) {
+      fetch(`http://localhost:3000/api/cart/${cartItemId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: newQty })
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('เพิ่มจำนวนสินค้าลงในตะกร้า');
+            updateCartCount();
+            renderCartSidebar(); // รีเฟรชข้อมูลในตะกร้า
+          } else {
+            showToast('ไม่สามารถเพิ่มจำนวนสินค้า');
+          }
+        });
     }
-  });
-}
-
-
   </script>

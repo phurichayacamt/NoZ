@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <title>Kaira - Bootstrap 5 Fashion Store HTML CSS Template</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +22,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <!-- <script src="js/custom.js"></script> -->
@@ -158,8 +158,8 @@
 
   <div class="row" id="product-list"></div>
 
-  
-  <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
+
+  <!-- <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
     <div class="offcanvas-header justify-content-center">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -196,11 +196,10 @@
             <strong>$20</strong>
           </li>
         </ul>
-
         <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to Checkout</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
     <div class="container-fluid">
@@ -230,7 +229,7 @@
             </div>
 
             <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
+              <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3 ">
 
                 <li class="nav-item dropdown">
                 <li class="nav-item">
@@ -239,7 +238,7 @@
                 <li class="nav-item">
                   <a class="nav-link" href="shop.html">Shop</a>
                 </li>
-              <li class="nav-item">
+                <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">LOGIN</button>
                 </li>
               </ul>
@@ -247,134 +246,139 @@
           </div>
         </div>
       </div>
-        <!-- Login Modal -->
-        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <!-- ฟอร์ม Login -->
-                <form id="login-form">
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password"
-                      required>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Login</button>
-                </form>
+    </div>
+    </div>
 
-                <!-- ปุ่มเปิด Register Modal -->
-                <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#registerModal">
-                  If you don't have an account (click here)
-                </button>
+    <!-- Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Login</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- ฟอร์ม Login -->
+            <form id="login-form">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
               </div>
-            </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+
+            <!-- ปุ่มเปิด Register -->
+            <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#registerModal">
+              If you don't have an account (click here)
+            </button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Register Modal (อยู่นอก Login ) -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalLabel">Register</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="register-form">
+              <div class="mb-3">
+                <label for="register-name" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="register-name" placeholder="กรอกชื่อของคุณ" required>
+              </div>
+              <div class="mb-3">
+                <label for="register-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="register-email" placeholder="Enter email" required>
+              </div>
+              <div class="mb-3">
+                <label for="register-password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="register-password" placeholder="Enter password"
+                  required>
+              </div>
+              <button type="submit" class="btn btn-primary">register</button>
+              <button type="button" class="btn btn-primary">Back to the login</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+      const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+      const backToLoginBtn = document.querySelector('#registerModal .btn.btn-primary[type="button"]');
+
+      backToLoginBtn.addEventListener('click', function (event) {
         
+        event.preventDefault(); // ป้องกันไม่ให้ฟอร์มถูกส่ง
+        registerModal.hide();  // ซ่อน Register 
+        setTimeout(() => loginModal.show(), 500); // หน่วงเวลาเพื่อให้ Register ซ่อนก่อน แล้วแสดง Login 
+        console.log("frrtftfgf");
+      });
 
-        <!-- Register Modal (อยู่นอก Login Modal) -->
-        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Register</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form id="register-form">
-                  <div class="mb-3">
-                    <label for="register-name" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="register-name" placeholder="กรอกชื่อของคุณ" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="register-email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="register-email" placeholder="Enter email" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="register-password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="register-password" placeholder="Enter password"
-                      required>
-                  </div>
-                  <button type="submit" class="btn btn-primary">register</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <script>
-          const registerBtn = document.querySelector('[data-bs-target="#registerModal"]');
-          const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-          const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
-
-          registerBtn.addEventListener('click', function () {
-            loginModal.hide();
-            setTimeout(() => registerModal.show(), 500); // หน่วงนิดหน่อยเพื่อให้ hide เสร็จก่อน
-          });
-        </script>
-
-
-
-
-            </div>
-          </div>
-        </div>
-        <div class="col-3 col-lg-auto">
-          <ul class="list-unstyled d-flex m-0">
-
-            <li class="d-none d-lg-block">
-              <a href="index.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span>
-              </a>
-            </li>
-            <li class="d-lg-none">
-              <a href="#" class="mx-2">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#heart"></use>
-                </svg>
-              </a>
-            </li>
-            <li class="d-lg-none">
-              <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                aria-controls="offcanvasCart">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#cart"></use>
-                </svg>
-              </a>
-            </li>
-            <!-- <li class="search-box" class="mx-2">
+      // เลือกปุ่มที่เปิด Register 
+      const registerBtn = document.querySelector('[data-bs-target="#registerModal"]');
+      // คลิก Register Btn, ซ่อน Login  และแสดง Register
+      registerBtn.addEventListener('click', function () {
+        loginModal.hide();
+        setTimeout(() => registerModal.show(), 500); // หน่วงเวลา
+      });
+    </script>
+    </div>
+    </div>
+    </div>
+    <div class="col-3 col-lg-auto">
+      <ul class="list-unstyled d-flex m-0">
+        <li class="d-none d-lg-block">
+          <a href="contact.html" class="text-uppercase mx-3">Contact</a>
+        </li>
+        </li>
+        <li class="d-lg-none">
+          <a href="#" class="mx-2">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <use xlink:href="#heart"></use>
+            </svg>
+          </a>
+        </li>
+        <li class="d-lg-none">
+          <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+            aria-controls="offcanvasCart">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <use xlink:href="#cart"></use>
+            </svg>
+          </a>
+        </li>
+        <!-- <li class="search-box" class="mx-2">
               <a href="#search" class="search-button">
                 <svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#search"></use>
                 </svg>
               </a>
             </li> -->
-          </ul>
-        </div>
-
-      </div>
-
+      </ul>
+    </div>
+    </div>
     </div>
   </nav>
-
   <section id="billboard" class="bg-light py-5">
     <div class="container">
       <div class="row" id="product-list"></div>
       <div class="row justify-content-center">
         <h1 class="section-title text-center mt-4" data-aos="fade-up">New Collections</h1>
         <div class="col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe voluptas ut dolorum consequuntur, adipisci
-            repellat! Eveniet commodi voluptatem voluptate, eum minima, in suscipit explicabo voluptatibus harum,
-            quibusdam ex repellat eaque!</p>
+          <p>Discover Styles That Define You
+            The latest collection from KAIRA is designed for those who value detail and individuality. Each piece
+            combines fashion and simplicity, offering you a perfect blend of elegance and everyday wear. Step into the
+            new season with confidence and style.</p>
         </div>
       </div>
       <div class="row">
@@ -500,8 +504,6 @@
       </div>
     </div>
   </section>
-
-
   <!-- <section class="categories overflow-hidden">
     <div class="container">
       <div class="open-up" data-aos="zoom-out">
@@ -552,7 +554,6 @@
       </div>
     </div>
   </section> -->
-
   <!-- <section id="new-arrival" class="new-arrival product-carousel py-5 position-relative overflow-hidden">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
@@ -699,7 +700,6 @@
                 nunc, lorem sit lorem urna, pretium aliquam ut. In vel, quis donec dolor id in. Pulvinar commodo mollis
                 diam sed facilisis at cursus imperdiet cursus ac faucibus sit faucibus sit libero.</p>
               <a href="shop.html" class="btn btn-dark text-uppercase mt-3">Shop Collection</a>
-
             </div>
           </div>
         </div>
@@ -1143,7 +1143,6 @@
     </div>
   </section> -->
 
-
   <!-- <section class="logo-bar py-5 my-5">
     <div class="container">
       <div class="row">
@@ -1158,7 +1157,7 @@
     </div>
   </section> -->
 
-  <section class="newsletter bg-light" style="background: url(images/pattern-bg.png) no-repeat;">
+  <!-- <section class="newsletter bg-light" style="background: url(images/pattern-bg.png) no-repeat;">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8 py-5 my-5">
@@ -1172,7 +1171,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <section class="instagram position-relative">
     <div class="d-flex justify-content-center w-100 position-absolute bottom-0 z-1">
@@ -1328,10 +1327,9 @@
         <div class="col-md-3 col-sm-6">
           <div class="footer-menu footer-menu-004 border-animation-left">
             <h5 class="widget-title text-uppercase mb-4">Contact Us</h5>
-            <p>Do you have any questions or suggestions? <a href="mailto:contact@yourcompany.com"
-                class="item-anchor">contact@yourcompany.com</a></p>
-            <p>Do you need support? Give us a call. <a href="tel:+43 720 11 52 78" class="item-anchor">+43 720 11 52
-                78</a>
+            <p>Do you have any questions or suggestions? <a href="pmykinggNoz@gmail.com"
+                class="item-anchor">pmykinggNoz@gmail.com</a></p>
+            <p>Do you need support? Give us a call. <a href="tel:0828165314" class="item-anchor">0828165314</a>
             </p>
           </div>
         </div>
@@ -1390,49 +1388,48 @@
       },
       body: JSON.stringify({ name, email, password }),
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        alert(data.message);
-      }
-    })
-    .catch(error => console.error('Error:', error));
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          alert(data.message);
+        }
+      })
+      .catch(error => console.error('Error:', error));
   });
 
-
   document.getElementById('login-form').addEventListener('submit', function (e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  // ดึงข้อมูลจากฟอร์ม
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+    // ดึงข้อมูลจากฟอร์ม
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-  // ส่งข้อมูลไปที่ API /api/login
-  fetch('/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        alert(data.message);
-        
-        // ปิด modal หลังล็อกอินสำเร็จ
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.hide();  // ปิด modal ที่มีอยู่
-
-        // สามารถทำให้หน้าเว็บกลับมาทำงานได้ตามปกติ หรือไปยังหน้าอื่น
-        window.location.href = "/";  // ตัวอย่าง: เปลี่ยนหน้าไปที่หน้าโฮมเพจ
-      }
+    // ส่งข้อมูลไปapi/login
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
     })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
-    });
-});
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          alert(data.message);
+
+          // ปิด modal หลังล็อกอินเสร็จ
+          const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+          loginModal.hide();  // ปิด modal ที่มีอยู่
+
+          // ทำให้หน้าเว็บกลับมาทำงานได้ตามปกติหรือไปยังหน้าอื่น
+          window.location.href = "/";  //ex เปลี่ยนหน้าไปที่หน้าโฮม
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred logging in.');
+      });
+  });
 
 </script>
 
