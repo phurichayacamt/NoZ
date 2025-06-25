@@ -315,15 +315,9 @@
     <script>
       const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
       const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
-      const backToLoginBtn = document.querySelector('#registerModal .btn.btn-primary[type="button"]');
 
-      backToLoginBtn.addEventListener('click', function (event) {
-        
-        event.preventDefault(); // ป้องกันไม่ให้ฟอร์มถูกส่ง
-        registerModal.hide();  // ซ่อน Register 
-        setTimeout(() => loginModal.show(), 500); // หน่วงเวลาเพื่อให้ Register ซ่อนก่อน แล้วแสดง Login 
-        console.log("frrtftfgf");
-      });
+
+
 
       // เลือกปุ่มที่เปิด Register 
       const registerBtn = document.querySelector('[data-bs-target="#registerModal"]');
@@ -332,6 +326,7 @@
         loginModal.hide();
         setTimeout(() => registerModal.show(), 500); // หน่วงเวลา
       });
+      
     </script>
     </div>
     </div>
@@ -1430,6 +1425,8 @@
         alert('An error occurred logging in.');
       });
   });
+
+  
 
 </script>
 

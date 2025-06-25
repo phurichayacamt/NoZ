@@ -517,33 +517,64 @@
         checkoutButton.disabled = true;   // ปิดใช้งานปุ่ม
       }
     }
+    
+    async function loadCartItems() {
+  try {
+    const response = await fetch(`${API_BASE}/cart/guest`);
+    const items = await response.json();
+
+    // ตรวจสอบว่าได้ข้อมูลสินค้าจริงหรือไม่
+    console.log(items);
+
+    cartItems = mergeDuplicateItems(items);
+
+    renderCartItems();
+    updateOrderSummary();
+    updateNavCartCount();
+    validateCheckoutButton();  // เรียกใช้ validateCheckoutButton หลังจากโหลดสินค้าจาก API
+  } catch (error) {
+    console.error('Error loading cart:', error);
+    showEmptyCart();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  loadCartItems();  // โหลดข้อมูลตะกร้า
+  validateCheckoutButton();  // ตรวจสอบสถานะปุ่มหลังจากโหลดข้อมูลตะกร้า
+});
+
+
 
     // ฟังก์ชันยืนยันการชำระเงิน (ลบสินค้าจากตะกร้าและแสดงข้อความสำเร็จ)
     function checkout() {
-      // ลบสินค้าจากตะกร้า
-      fetch('http://localhost:3000/api/cart/guest', {
-        method: 'DELETE'
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            // แสดงข้อความชำระเงินสำเร็จ
-            document.getElementById('successModal').classList.add('show');
-            document.getElementById('successModal').style.display = 'block'; // แสดง Modal
-
-            // ปิดตะกร้าหลังจากยืนยัน
-            loadCheckoutCart();
-
-            // ปรับปุ่มกลับไปหน้าแรก
-            setTimeout(function () {
-              window.location.href = "index.html"; // ไปยังหน้า home หลังจาก 3 วินาที
-            }, 3000);  // 3000 มิลลิวินาที (3 วินาที)
-          }
-        })
-        .catch(error => {
-          console.error('Error during checkout:', error);
-        });
+  // เริ่มต้นการชำระเงิน (ลบสินค้าจากตะกร้า)
+  fetch('http://localhost:3000/api/cart/guest', {
+    method: 'DELETE'
+  })
+  .then(res => res.json())
+  .then(result => {
+    if (result.success) {
+      // เมื่อการชำระเงินสำเร็จ
+      document.getElementById('successModal').classList.add('show');
+      document.getElementById('successModal').style.display = 'block'; // แสดง Modal
+      setTimeout(function() {
+        window.location.href = "index.html"; // ไปยังหน้า home หลังจาก 3 วินาที
+      }, 3000);  // 3000 มิลลิวินาที (3 วินาที)
     }
+  })
+  .catch(error => {
+    console.error('Error during checkout:', error);
+  });
+}
+
+document.getElementById('place-order-btn').addEventListener('click', function() {
+  // สลับให้แสดงข้อความกำลังดำเนินการ
+  document.getElementById('order-btn-text').classList.add('d-none');
+  document.getElementById('order-btn-loading').classList.remove('d-none');
+  
+  checkout();  // เรียกใช้ฟังก์ชัน checkout
+});
+
 
     // ฟังก์ชันโหลดข้อมูลจากตะกร้า
     function loadCheckoutCart() {
@@ -571,11 +602,7 @@
     }
 
     // เมื่อโหลดหน้า
-    document.addEventListener('DOMContentLoaded', function () {
-      loadCheckoutCart();
-      document.getElementById('checkout-btn').onclick = checkout;
-      validateCheckoutButton(); // ตรวจสอบสถานะปุ่ม
-    });
+
 
 
 
