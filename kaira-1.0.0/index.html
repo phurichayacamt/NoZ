@@ -305,6 +305,21 @@
               </div>
               <button type="submit" class="btn btn-primary">register</button>
               <button type="button" class="btn btn-primary">Back to the login</button>
+              <script>
+                // การเชื่อมโยงปุ่ม "Back to the login" ให้สลับไปที่ Login Modal
+                const backToLoginBtn = document.getElementById('back-to-login-btn');
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+              
+                // เมื่อคลิกปุ่ม "Back to the login"
+                backToLoginBtn.addEventListener('click', function () {
+                  // ซ่อน Register Modal
+                  registerModal.hide();
+                  // แสดง Login Modal
+                  loginModal.show();
+                });
+              </script>
+              
 
             </form>
           </div>
@@ -312,22 +327,7 @@
       </div>
     </div>
 
-    <script>
-      const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-      const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
-
-
-
-
-      // เลือกปุ่มที่เปิด Register 
-      const registerBtn = document.querySelector('[data-bs-target="#registerModal"]');
-      // คลิก Register Btn, ซ่อน Login  และแสดง Register
-      registerBtn.addEventListener('click', function () {
-        loginModal.hide();
-        setTimeout(() => registerModal.show(), 500); // หน่วงเวลา
-      });
-      
-    </script>
+  
     </div>
     </div>
     </div>
