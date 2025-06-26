@@ -1607,7 +1607,7 @@ checkout-step {
 .step-number {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #575b3c 0%, #ff9165 100%);
+  background: linear-gradient(135deg, #000000 0%, #000000 100%);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -1707,7 +1707,7 @@ checkout-step {
 }
 
 .checkout-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #000000 0%, #22160c 100%);
   border: none;
   padding: 1rem 2rem;
   font-size: 1.1rem;
